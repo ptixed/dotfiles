@@ -23,8 +23,13 @@ set noswapfile
 
 " ------------------
 
-nnoremap <c-s> :w<CR>
-inoremap <c-s> <Esc>:w<CR>a
+nnoremap <F8> :bnext<cr>
+inoremap <F8> <esc>:bnext<cr>a
+
+" ------------------
+
+nnoremap <c-s> :w<cr>
+inoremap <c-s> <esc>:w<cr>a
 
 nnoremap x "_x
 vnoremap x "_x
@@ -37,6 +42,6 @@ nnoremap p p`]
 
 " ------------------
 
-inoremap jj <Esc>
-noremap <C-d> :sh<cr>
+inoremap jj <esc>
+noremap <c-d> :sh<cr>
 
