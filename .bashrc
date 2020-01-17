@@ -13,3 +13,8 @@ if [[ -n "${ConEmuPID}" ]]; then
 fi
 
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
+
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+
+IFS=$'\n'
