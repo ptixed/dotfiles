@@ -12,6 +12,11 @@ if [[ -n "${ConEmuPID}" ]]; then
   PS1="$PS1\[\e]9;9;\"\w\"\007\e]9;12\007\]"
 fi
 
+if [ ! $(type __git_wrap__git_main 2&>1 >/dev/null) ]; then
+    if [ -e /usr/share/bash-completion/completions/git ]; then
+        . /usr/share/bash-completion/completions/git
+    fi
+fi
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 export HISTSIZE=5000

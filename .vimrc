@@ -20,6 +20,7 @@ set mouse=a
 set laststatus=2 
 set timeoutlen=200 ttimeoutlen=200
 set noswapfile
+set nofixendofline
 
 " ------------------
 
