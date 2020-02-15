@@ -26,9 +26,7 @@ if [[ -n "${ConEmuPID}" ]]; then
 fi
 
 if [ ! $(type __git_wrap__git_main 2>/dev/null >/dev/null) ]; then
-    if [ -e /usr/share/bash-completion/completions/git ]; then
-        . /usr/share/bash-completion/completions/git
-    fi
+    . $(dirname "$BASH_SOURCE")/git-prompt.sh
 fi
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
