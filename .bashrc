@@ -6,7 +6,7 @@ stty -ixon
 alias grep='grep --color'
 alias g=git
 
-seed=$(printf "%d" "0x$(printf $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
+seed=$(printf "%d" "0x$(echo $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
 rand=$(bash -c "RANDOM=$seed; echo \$RANDOM")
 code=$((0x03b1 + $rand % 25))
 char=$(printf "\u$(printf '%x' $code)")
