@@ -1,5 +1,6 @@
 
 shopt -s globstar
+shopt -s checkwinsize
 
 stty -ixon
 
