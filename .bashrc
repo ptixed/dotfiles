@@ -19,7 +19,7 @@ _ps1_isok () {
     fi
 }
 
-export PS1='\n\[\e[93m\]\w\[\e[95m\]`__git_ps1`\[\e[91m\]\n`_ps1_isok`: \[\e[0m\]'
+export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1`\[\e[91m\]\n`_ps1_isok`: \[\e[0m\]'
 
 if [[ -n "${ConEmuPID}" ]]; then
   PS1="$PS1\[\e]9;9;\"\w\"\007\e]9;12\007\]"
@@ -34,3 +34,4 @@ export HISTSIZE=5000
 export HISTFILESIZE=5000
 
 IFS=$'\n'
+
