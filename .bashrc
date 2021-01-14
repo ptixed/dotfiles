@@ -35,8 +35,8 @@ if [ ! $(type __git_wrap__git_main 2>/dev/null >/dev/null) ]; then
 fi
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
-export HISTSIZE=5000
-export HISTFILESIZE=5000
+export HISTSIZE=10000
+export HISTFILESIZE=10000
 export PROMPT_COMMAND='history -a'
 
 IFS=$'\n'
