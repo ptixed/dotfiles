@@ -6,6 +6,7 @@ stty -ixon
 
 alias grep='grep --color'
 alias g=git
+alias k=kubectl
 
 if [ $(whoami) != 'root' ]; then
     seed=$(printf "%d" "0x$(echo $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
