@@ -17,7 +17,7 @@ IFS=$'\n'
 
 if [ $(whoami) != 'root' ]; then
     seed=$(printf "%d" "0x$(echo $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
-    rand=$(bash -c "RANDOM=$seed; echo \$RANDOM")
+    rand=$(sh -c "RANDOM=$seed; echo \$RANDOM")
     code=$((0x03b1 + $rand % 25))
     char=$(printf "\u$(printf '%x' $code)")
 else
