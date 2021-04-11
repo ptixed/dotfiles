@@ -8,6 +8,8 @@ filetype plugin indent on
 
 fixdel
 
+set listchars=tab:▸\ ,eol:¬
+
 set number
 set tabstop=4
 set shiftwidth=4
@@ -20,6 +22,7 @@ set mouse=a
 set laststatus=0
 set timeoutlen=200 ttimeoutlen=200
 set noswapfile
+set hidden
 
 " ------------------
 
@@ -49,7 +52,6 @@ noremap <c-d> :sh<cr>
 " Ctrl-Z undo, Ctrl-R redo
 inoremap <c-z> <esc>ui
 nnoremap <c-z> u
-inoremap <c-r> <esc><c-r>i
 
 " Ctrl-W close tab
 nnoremap <c-w> :tabc<cr>
@@ -64,10 +66,6 @@ nnoremap <c-e> :tabp<cr>
 inoremap <c-e> <esc>:tabp<cr>i
 nnoremap <c-q> :tabp<cr>
 inoremap <c-q> <esc>:tabp<cr>i
-
-" Ctrl-A select all
-nnoremap <c-a> ggVG
-inoremap <c-a> <esc>ggVG
 
 " ------------------
 " changes colors based on mode
