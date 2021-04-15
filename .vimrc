@@ -8,8 +8,6 @@ filetype plugin indent on
 
 fixdel
 
-set listchars=tab:▸\ ,eol:¬
-
 set number
 set tabstop=4
 set shiftwidth=4
@@ -19,7 +17,7 @@ set clipboard=unnamed,unnamedplus
 set smartcase
 set incsearch
 set mouse=a
-set laststatus=0
+set laststatus=1
 set timeoutlen=200 ttimeoutlen=200
 set noswapfile
 set hidden
@@ -53,10 +51,6 @@ noremap <c-d> :sh<cr>
 inoremap <c-z> <esc>ui
 nnoremap <c-z> u
 
-" Ctrl-W close tab
-nnoremap <c-w> :tabc<cr>
-inoremap <c-w> <esc>:tabc<cr>i
-
 " Ctrl-N new tab
 nnoremap <c-n> :tabe<cr>
 inoremap <c-n> <esc>:tabe<cr>i
@@ -70,6 +64,8 @@ inoremap <c-q> <esc>:tabp<cr>i
 " ------------------
 " changes colors based on mode
 
+hi StatusLine ctermfg=3
+hi StatusLineNC ctermfg=0
 hi LineNr ctermfg=4
 autocmd InsertEnter * exe "hi LineNr ctermfg=3"
 autocmd InsertLeave * exe "hi LineNr ctermfg=4"
