@@ -14,6 +14,7 @@ set shiftwidth=4
 set expandtab
 set backspace=2
 set clipboard=unnamed,unnamedplus
+set ignorecase
 set smartcase
 set incsearch
 set mouse=a

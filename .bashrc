@@ -17,9 +17,7 @@ IFS=$'\n'
 
 if [ $(whoami) != 'root' ]; then
     seed=$(printf "%d" "0x$(echo $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
-    rand=$(bash -c "RANDOM=$seed; echo \$RANDOM")
-    code=$((0x03b1 + $rand % 25))
-    char=$(printf "\u$(printf '%x' $code)")
+    char=$(printf "\u$(printf '%x' $((0x03b1 + $seed % 25)) )")
 else
     char="$HOSTNAME"
 fi
@@ -33,9 +31,7 @@ _ps1_isok () {
 }
 
 if ! command -v __git_ps1 >/dev/null; then
-    __git_ps1 () {
-        :
-    }
+    __git_ps1 () { :; }
 fi
 
 export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1` \[\e[91m\]\n`_ps1_isok`: \[\e[0m\]'
@@ -43,10 +39,18 @@ export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1` \[\e[91m\]\n`_ps1_isok`: \[\e[0m
 
 # completion
 
+alias grep='grep --color'
 alias d=docker
+alias k=kubectl
+alias v=vim
 
 if command -v git &> /dev/null; then
     alias g=git
+    alias ga='git add -A'
+    alias gc='git commit'
+    alias gd='git diff'
+    alias gp='git pull'
+    alias gs='git status'
     complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 	stash () {
@@ -57,15 +61,6 @@ if command -v git &> /dev/null; then
 		fi
 	}
 fi
-
-if command -v kubectl &> /dev/null; then
-    alias k=kubectl
-    # . <(kubectl completion bash)
-    # complete -F __start_kubectl k
-fi
-
-alias grep='grep --color'
-
 
 # conemu tab name
 
