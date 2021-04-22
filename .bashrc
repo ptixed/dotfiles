@@ -47,7 +47,7 @@ alias v=vim
 if command -v git &> /dev/null; then
     alias g=git
     alias ga='git add -A'
-    alias gc='git commit'
+    alias gc='git checkout'
     alias gd='git diff'
     alias gp='git pull'
     alias gs='git status'
