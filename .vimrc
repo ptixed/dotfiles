@@ -57,8 +57,8 @@ nnoremap <c-n> :tabe<cr>
 inoremap <c-n> <esc>:tabe<cr>i
 
 " Ctrl-Q previous tab, Ctrl-E next tab
-nnoremap <c-e> :tabp<cr>
-inoremap <c-e> <esc>:tabp<cr>i
+nnoremap <c-e> :tabn<cr>
+inoremap <c-e> <esc>:tabn<cr>i
 nnoremap <c-q> :tabp<cr>
 inoremap <c-q> <esc>:tabp<cr>i
 
