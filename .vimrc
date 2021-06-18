@@ -3,6 +3,10 @@
 " Pawel Krogulec
 " ------------------
 
+" let g:GPGDebugLevel = 2
+" let g:GPGDebugLog = expand('~/gnupg.log')
+execute pathogen#infect()
+
 syntax on
 filetype plugin indent on
 

@@ -11,7 +11,7 @@ export HISTFILESIZE=10000
 export PROMPT_COMMAND='history -a'
 
 IFS=$'\n'
-
+export GPG_TTY="$(tty)"
 
 # PS1
 
