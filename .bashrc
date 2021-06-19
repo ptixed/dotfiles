@@ -40,6 +40,7 @@ export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1` \[\e[91m\]\n`_ps1_isok`: \[\e[0m
 # completion
 
 alias grep='grep --color'
+alias less='less -r'
 alias d=docker
 alias k=kubectl
 alias v=vim

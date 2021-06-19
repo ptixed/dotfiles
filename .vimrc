@@ -27,6 +27,8 @@ set timeoutlen=200 ttimeoutlen=200
 set noswapfile
 set hidden
 
+command Bd bp|bd #
+
 " ------------------
 
 " F8 buffer switching
@@ -37,8 +39,8 @@ inoremap <F8> <esc>:bnext<cr>a
 nnoremap <F3> n
 
 " Ctrl-S save
-nnoremap <c-s> :w<cr>
-inoremap <c-s> <esc>:w<cr>a
+nnoremap <c-s> :wa<cr>
+inoremap <c-s> <esc>:wa<cr>a
 
 " do not pollute the default register
 nnoremap x "_x
@@ -47,10 +49,11 @@ nnoremap <del> "_x
 vnoremap <del> "_x
 
 " insert mode on enter
-nnoremap <cr> A<cr>
+nnoremap <cr> i<cr>
 
 " Ctrl-D bash
-noremap <c-d> :sh<cr>
+inoremap <c-d> <esc>:w<cr>:sh<cr>
+nnoremap <c-d> :w<cr>:sh<cr>
 
 " Ctrl-Z undo, Ctrl-R redo
 inoremap <c-z> <esc>ui
@@ -65,6 +68,8 @@ nnoremap <c-e> :tabn<cr>
 inoremap <c-e> <esc>:tabn<cr>i
 nnoremap <c-q> :tabp<cr>
 inoremap <c-q> <esc>:tabp<cr>i
+
+inoremap <c-w><c-w> <esc><c-w><c-w>i
 
 " ------------------
 " changes colors based on mode
