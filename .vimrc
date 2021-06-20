@@ -21,13 +21,13 @@ set clipboard=unnamed,unnamedplus
 set ignorecase
 set smartcase
 set incsearch
-set mouse=a
 set laststatus=1
-set timeoutlen=200 ttimeoutlen=200
+set timeoutlen=300 ttimeoutlen=300
 set noswapfile
 set hidden
+set showcmd
 
-command Bd bp|bd #
+command Bd bp|bd! #
 
 " ------------------
 
