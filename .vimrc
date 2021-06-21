@@ -26,6 +26,7 @@ set timeoutlen=300 ttimeoutlen=300
 set noswapfile
 set hidden
 set showcmd
+set autoindent
 
 command Bd bp|bd! #
 

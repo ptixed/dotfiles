@@ -25,3 +25,5 @@ focus right
 select 1
 focus left
 
+layout save default
+
