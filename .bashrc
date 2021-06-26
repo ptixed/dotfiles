@@ -9,6 +9,7 @@ stty -ixon -ixoff
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export PROMPT_COMMAND='history -a'
+export LESS='-iFXRj.5'
 
 IFS=$'\n'
 export GPG_TTY="$(tty)"
@@ -30,8 +31,8 @@ _ps1_isok () {
     fi
 }
 
-if ! command -v __git_ps1 >/dev/null; then
-    __git_ps1 () { :; }
+if ! command -v __git_wrap__git_main >/dev/null; then
+    source /usr/share/bash-completion/completions/git
 fi
 
 export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1` \[\e[91m\]\n`_ps1_isok`: \[\e[0m\]'
