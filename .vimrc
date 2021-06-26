@@ -32,9 +32,6 @@ command Bd bp|bd! #
 
 " ------------------
 
-nnoremap jj i
-inoremap jj <esc>
-
 " F8 buffer switching
 nnoremap <F8> :bnext<cr>
 inoremap <F8> <esc>:bnext<cr>a
