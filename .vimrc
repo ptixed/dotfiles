@@ -16,7 +16,7 @@ set number
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set backspace=2
+set backspace=indent,eol,start
 set clipboard=unnamed,unnamedplus
 set ignorecase
 set smartcase
@@ -28,9 +28,23 @@ set hidden
 set showcmd
 set autoindent
 
-command Bd bp|bd! #
+command Bd bn|bd! #
 
 " ------------------
+
+" faster buffer switch
+nnoremap bb :bn<cr>
+
+" better backspace
+nnoremap <bs> i<bs>
+
+" section navigation
+nnoremap ]] ]}
+nnoremap [[ [{
+
+" faster navigation
+nnoremap jk 10j
+nnoremap kj 10k
 
 " F8 buffer switching
 nnoremap <F8> :bnext<cr>
