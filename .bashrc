@@ -9,7 +9,7 @@ stty -ixon -ixoff
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export PROMPT_COMMAND='history -a'
-export LESS='-iFXRj.5'
+export LESS='-XiRSj.1'
 
 IFS=$'\n'
 export GPG_TTY="$(tty)"
