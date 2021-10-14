@@ -9,34 +9,40 @@ stty -ixon -ixoff
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export PROMPT_COMMAND='history -a'
-export LESS='-XiRSj.1'
+export LESS='-FXiRSj.1'
 
 IFS=$'\n'
 export GPG_TTY="$(tty)"
 
 # PS1
 
-if [ $(whoami) != 'root' ]; then
-    seed=$(printf "%d" "0x$(echo $(whoami && printf $HOSTNAME) | md5sum | xxd -p -c 4 | head -1)")
-    char=$(printf "\u$(printf '%x' $((0x03b1 + $seed % 25)) )")
+if command -v kubectl &> /dev/null; then
+    _ps1_k_context () {
+        kubectl config current-context 2>/dev/null
+    }
 else
-    char="$HOSTNAME"
+    _ps1_k_context () { :; }
 fi
-
-_ps1_isok () {
-    if [ "$?" == "0" ]; then
-        printf $char
-    else
-        printf '!'
-    fi
-}
 
 if ! command -v __git_wrap__git_main >/dev/null; then
     source /usr/share/bash-completion/completions/git
 fi
 
-export PS1='\n\[\e[93m\]\w\[\e[90m\]`__git_ps1` \[\e[91m\]\n`_ps1_isok`: \[\e[0m\]'
-
+function prompt() {
+    if [ "$?" == "0" ]; then 
+        s2='λ'
+    else 
+        s2='!'
+    fi
+    s1=$(__git_ps1)
+    pwd=$(dirs +0)
+    s1="$s1$(printf "%$(( $COLUMNS - ${#s1} - ${#pwd} ))s" "$(_ps1_k_context) $(date +%H:%M:%S)")"
+    PS1='\n\[\e[93m\]\w\[\e[90m\]`echo $s1`\[\e[91m\]\n`echo $s2`: \[\e[0m\]'
+    if [[ -n "${ConEmuPID}" ]]; then
+      PS1="$PS1\[\e]9;9;\"\w\"\007\e]9;12\007\]"
+    fi
+}
+PROMPT_COMMAND=prompt
 
 # completion
 
@@ -44,12 +50,13 @@ alias grep='grep --color'
 alias less='less -r'
 alias d=docker
 alias k=kubectl
+alias t=terraform
 alias v=vim
 
 if command -v git &> /dev/null; then
     alias g=git
     alias ga='git add -A'
-    alias gc='git checkout'
+    alias gc='git checkout --recurse-submodules'
     alias gd='git diff'
     alias gp='git pull'
     alias gs='git status'
@@ -62,11 +69,5 @@ if command -v git &> /dev/null; then
 			git stash push -m "$1"
 		fi
 	}
-fi
-
-# conemu tab name
-
-if [[ -n "${ConEmuPID}" ]]; then
-  PS1="$PS1\[\e]9;9;\"\w\"\007\e]9;12\007\]"
 fi
 
