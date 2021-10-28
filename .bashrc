@@ -8,7 +8,6 @@ stty -ixon -ixoff
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export PROMPT_COMMAND='history -a'
 export LESS='-FXiRSj.1'
 
 IFS=$'\n'
@@ -34,6 +33,7 @@ function prompt() {
     else 
         s2='!'
     fi
+    history -a
     s1=$(__git_ps1)
     pwd=$(dirs +0)
     s1="$s1$(printf "%$(( $COLUMNS - ${#s1} - ${#pwd} ))s" "$(_ps1_k_context) $(date +%H:%M:%S)")"
