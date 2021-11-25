@@ -1,6 +1,12 @@
 
 # general settings
 
+bind 'TAB:menu-complete'
+bind "set show-all-if-ambiguous on"
+bind "set menu-complete-display-prefix on"
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+
 shopt -s globstar
 shopt -s checkwinsize
 
@@ -9,9 +15,9 @@ stty -ixon -ixoff
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export LESS='-FXiRSj.1'
+export GPG_TTY="$(tty)"
 
 IFS=$'\n'
-export GPG_TTY="$(tty)"
 
 # PS1
 
