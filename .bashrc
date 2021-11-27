@@ -1,16 +1,16 @@
 
 # general settings
 
-bind 'TAB:menu-complete'
-bind "set show-all-if-ambiguous on"
-bind "set menu-complete-display-prefix on"
-bind '"\e[A":history-search-backward'
-bind '"\e[B":history-search-forward'
+bind 'TAB:menu-complete' 2>/dev/null
+bind "set show-all-if-ambiguous on" 2>/dev/null
+bind "set menu-complete-display-prefix on" 2>/dev/null
+bind '"\e[A":history-search-backward' 2>/dev/null
+bind '"\e[B":history-search-forward' 2>/dev/null
 
 shopt -s globstar
 shopt -s checkwinsize
 
-stty -ixon -ixoff
+stty -ixon -ixoff 2>/dev/null
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
