@@ -5,7 +5,6 @@
 
 " let g:GPGDebugLevel = 2
 " let g:GPGDebugLog = expand('~/gnupg.log')
-execute pathogen#infect()
 
 syntax on
 filetype plugin indent on
@@ -27,6 +26,7 @@ set noswapfile
 set hidden
 set showcmd
 set autoindent
+set nofixendofline
 
 command Bd bn|bd! #
 
@@ -125,4 +125,3 @@ endfunction
 
 autocmd VimEnter * nested :call LoadSession()
 autocmd VimLeave * :call MakeSession()
-
