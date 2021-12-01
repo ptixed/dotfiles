@@ -1,10 +1,15 @@
 #!/bin/bash
+
 cd $(dirname $0)
-for f in $(find -maxdepth 1 -name '.*' | grep -Po '\.\/\K\..*' | grep -v '^\.git'); do
-    if [ -e ~/$(basename $f) ]; then
-        echo ~/$(basename $f) already exists
+
+for f in $(find -maxdepth 1 -name '.?*' | sed 's/^..//' | grep -v '^.git'); do
+    if [ -e ~/$f ]; then
+        echo ~/$f already exists
     else
-        ln -s $PWD/$f ~/$(basename $f)
+        ln -s $PWD/$f ~/$f
     fi
 done
 
+if uname | grep -q MINGW; then
+	cp bin/* /usr/bin/
+fi
