@@ -2,28 +2,23 @@
 # general settings
 
 bind 'TAB:menu-complete' 2>/dev/null
-bind "set show-all-if-ambiguous on" 2>/dev/null
+bind "set show-all-if-unmodified on" 2>/dev/null
 bind "set menu-complete-display-prefix on" 2>/dev/null
 bind '"\e[A":history-search-backward' 2>/dev/null
 bind '"\e[B":history-search-forward' 2>/dev/null
 
 shopt -s globstar
-shopt -s checkwinsize
 
 stty -ixon -ixoff 2>/dev/null
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export LESS='-FXiRSj.1'
+export LESS='-iRS'
 export GPG_TTY="$(tty)"
 
 IFS=$'\n'
 
 # PS1
-
-if ! command -v __git_wrap__git_main >/dev/null; then
-    source /usr/share/bash-completion/completions/git
-fi
 
 function prompt() {
     if [ "$?" == "0" ]; then 
@@ -42,11 +37,8 @@ PROMPT_COMMAND=prompt
 # completion
 
 alias grep='grep --color'
-alias less='less -r'
 alias d=docker
 alias k=kubectl
-alias t=terraform
-alias v=vim
 
 if command -v git &> /dev/null; then
     alias g=git

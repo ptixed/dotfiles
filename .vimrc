@@ -33,7 +33,7 @@ command Bd bn|bd! #
 " ------------------
 
 " faster buffer switch
-nnoremap bb :bn<cr>
+nnoremap bn :bn<cr>
 
 " better backspace
 nnoremap <bs> i<bs>
