@@ -58,6 +58,8 @@ nnoremap <c-s> :wa<cr>
 inoremap <c-s> <esc>:wa<cr>a
 
 " do not pollute the default register
+nnoremap d "_d
+vnoremap d "_d
 nnoremap x "_x
 vnoremap x "_x
 nnoremap <del> "_x   

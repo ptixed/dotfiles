@@ -13,7 +13,7 @@ stty -ixon -ixoff 2>/dev/null
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export LESS='-iRS'
+export LESS='-iRSX'
 export GPG_TTY="$(tty)"
 
 IFS=$'\n'
@@ -39,11 +39,14 @@ PROMPT_COMMAND=prompt
 alias grep='grep --color'
 alias d=docker
 alias k=kubectl
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 if command -v git &> /dev/null; then
     alias g=git
     alias ga='git add -A'
-    alias gc='git checkout --recurse-submodules'
+    alias gc='git checkout'
     alias gd='git diff'
     alias gp='git pull'
     alias gs='git status'
