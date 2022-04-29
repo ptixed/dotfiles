@@ -84,6 +84,8 @@ inoremap <c-e> <esc>:tabn<cr>i
 nnoremap <c-q> :tabp<cr>
 inoremap <c-q> <esc>:tabp<cr>i
 
+inoremap <c-w>w <esc><c-w>Wi
+nnoremap <c-w>w <c-w>W
 inoremap <c-w><c-w> <esc><c-w><c-w>i
 
 " ------------------

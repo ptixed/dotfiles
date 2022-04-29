@@ -49,7 +49,6 @@ if command -v git &> /dev/null; then
     alias gdc='git diff --cached'
     alias gp='git pull'
     alias gs='git status'
-    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 	stash () {
 		if [ "$1" == pop ] || [ "$1" == apply ] || [ "$1" == drop ] || [ "$1" == show ]; then
