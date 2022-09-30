@@ -1,10 +1,12 @@
 
 # general settings
 
-set +H
 shopt -s globstar
 
 stty -ixon -ixoff 2>/dev/null
+
+bind '"\e[A":history-search-backward' 2>/dev/null
+bind '"\e[B":history-search-forward' 2>/dev/null
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
@@ -12,8 +14,6 @@ export LESS='-iRSXN'
 export GPG_TTY="$(tty)"
 
 IFS=$'\n'
-
-bind '"\C-j":"cd ..\C-m"'
 
 # PS1
 

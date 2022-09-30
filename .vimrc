@@ -42,9 +42,8 @@ nnoremap <bs> i<bs>
 nnoremap ]] ]}
 nnoremap [[ [{
 
-" faster navigation
-nnoremap jk 10j
-nnoremap kj 10k
+" A end of line
+nnoremap A $
 
 " F8 buffer switching
 nnoremap <F8> :bnext<cr>
