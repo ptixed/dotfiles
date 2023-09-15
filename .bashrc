@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # general settings
 
@@ -5,13 +6,21 @@ shopt -s globstar
 
 stty -ixon -ixoff 2>/dev/null
 
+# use quoted-insert (C-q) to find out keycodes
 bind '"\e[A":history-search-backward' 2>/dev/null
 bind '"\e[B":history-search-forward' 2>/dev/null
+bind 'C-H:backward-kill-word'
 
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export LESS='-iRSXN'
 export GPG_TTY="$(tty)"
+export LESS='-JiwRXS'
+# J # status column for marking with m, and navigating with '
+# i # case insensitive
+# w # highlight unread line
+# R # color escape sequences
+# X # no screen cleaning
+# S # chop long lines
 
 IFS=$'\n'
 
@@ -48,6 +57,7 @@ if command -v git &> /dev/null; then
     alias gd='git diff'
     alias gdc='git diff --cached'
     alias gp='git pull'
+    alias gpp='git pull && git push'
     alias gs='git status'
 
 	stash () {
@@ -58,3 +68,24 @@ if command -v git &> /dev/null; then
 		fi
 	}
 fi
+
+# bookmarks
+
+bookmark_histfile_swap () {
+    if [ "$PROMPT_COMMAND" == "" ]; then
+        PROMPT_COMMAND=:
+    fi
+    bookmark_c=0
+    PROMPT_COMMAND="if [ \$bookmark_c == '0' ]; then bookmark_c=1; else PS1=${PS1@Q}; HISTFILE=${HISTFILE@Q}; history -c; history -r; PROMPT_COMMAND=${PROMPT_COMMAND@Q}; eval ${PROMPT_COMMAND@Q}; fi"
+    PS1=
+    HISTFILE=~/.bookmarks
+    history -c
+    history -r
+}
+
+bookmark () { 
+    tail -1 ~/.bash_history >> ~/.bookmarks
+}
+
+bind '"\C-xff":reverse-search-history' # assuming C-xff is unused
+bind '"\C-b":"cat ~/.bookmarks; echo; bookmark_histfile_swap\C-m\C-xff"'

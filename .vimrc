@@ -10,6 +10,7 @@ syntax on
 filetype plugin indent on
 
 fixdel
+set whichwrap+=<,>,h,l,[,]
 
 set number
 set tabstop=4
@@ -42,13 +43,6 @@ nnoremap <bs> i<bs>
 nnoremap ]] ]}
 nnoremap [[ [{
 
-" A end of line
-nnoremap A $
-
-" F8 buffer switching
-nnoremap <F8> :bnext<cr>
-inoremap <F8> <esc>:bnext<cr>a
-
 " F3 find next
 nnoremap <F3> n
 
@@ -61,6 +55,9 @@ nnoremap x "_x
 vnoremap x "_x
 nnoremap <del> "_x   
 vnoremap <del> "_x
+
+" do not overwrite register when pasting
+vnoremap p "_dp
 
 " insert mode on enter
 nnoremap <cr> i<cr>
