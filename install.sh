@@ -2,13 +2,15 @@
 
 cd $(dirname $0)
 
-for f in $(find -maxdepth 1 -name '.?*' | sed 's/^..//' | grep -v '^.git'); do
-    if [ -e ~/$f ]; then
-        echo ~/$f already exists
-    else
-        ln -s $PWD/$f ~/$f
-    fi
-done
+export MSYS=winsymlinks:nativestrict 
+
+ln -sT $PWD/.bashrc ~/.bashrc
+ln -sT $PWD/.tmux.conf ~/.tmux.conf
+ln -sT $PWD/.vimrc ~/.vimrc
+ln -sT $PWD/.vim ~/.vim
+
+mkdir -p ~/.config/ncspot/
+ln -sT $PWD/.config/ncspot/config.toml ~/.config/ncspot/config.toml
 
 if uname | grep -q MINGW; then
 	cp bin/* /usr/bin/

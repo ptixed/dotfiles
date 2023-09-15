@@ -1,0 +1,22 @@
+flip_status_indicators = true
+
+[keybindings]
+"q" = "focus queue"
+"F1" = "focus queue"
+"w" = "focus library"
+"F2" = "focus library"
+"e" = "focus search"
+"?" = "focus search"
+"f" = "save"
+"d" = "delete"
+"." = "seek +10000"
+"," = "seek -10000"
+"p" = "insert"
+"y" = "share selected"
+"Space" = "playpause"
+"n" = "next"
+"b" = "previous"
+"PageDown" = "move down 20"
+"PageUp" = "move up 20"
+
+
