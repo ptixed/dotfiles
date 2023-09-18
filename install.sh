@@ -6,12 +6,13 @@ export MSYS=winsymlinks:nativestrict
 
 ln -sT $PWD/.bashrc ~/.bashrc
 ln -sT $PWD/.tmux.conf ~/.tmux.conf
+ln -sT $PWD/.tmux ~/.tmux
 ln -sT $PWD/.vimrc ~/.vimrc
 ln -sT $PWD/.vim ~/.vim
 
 mkdir -p ~/.config/ncspot/
-ln -sT $PWD/.config/ncspot/config.toml ~/.config/ncspot/config.toml
+ln -sT $PWD/.config/ncspot/config.toml ~/.config/ncspot/config.toml # $APPDATA/ncspot/config.toml
 
 if uname | grep -q MINGW; then
-	cp bin/* /usr/bin/
+    cp bin/* /usr/bin/
 fi
