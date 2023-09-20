@@ -11,6 +11,7 @@ bind '"\e[A":history-search-backward' 2>/dev/null
 bind '"\e[B":history-search-forward' 2>/dev/null
 bind 'C-H:backward-kill-word'
 
+export EDITOR=vim
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export GPG_TTY="$(tty)"
@@ -25,7 +26,6 @@ export LESS='-JiwRXS'
 IFS=$'\n'
 
 # PS1
-
 function prompt() {
     if [ "$?" == "0" ]; then 
         s2='λ'
@@ -49,43 +49,19 @@ alias grep='grep --color'
 alias d=docker
 alias k=kubectl
 alias t=terraform
+alias g=git
+alias ga='git add -A'
+alias gc='git checkout'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gp='git pull'
+alias gpp='git pull && git push'
+alias gs='git status'
 
-if command -v git &> /dev/null; then
-    alias g=git
-    alias ga='git add -A'
-    alias gc='git checkout'
-    alias gd='git diff'
-    alias gdc='git diff --cached'
-    alias gp='git pull'
-    alias gpp='git pull && git push'
-    alias gs='git status'
-
-	stash () {
-		if [ "$1" == pop ] || [ "$1" == apply ] || [ "$1" == drop ] || [ "$1" == show ]; then
-			git stash $1 $(git stash list | grep -Po "(stash@\{\d+\})(?=: On [^:]+: ${2}$)")
-		else
-			git stash push -m "$1"
-		fi
-	}
-fi
-
-# bookmarks
-
-bookmark_histfile_swap () {
-    if [ "$PROMPT_COMMAND" == "" ]; then
-        PROMPT_COMMAND=:
+stash () {
+    if [ "$1" == pop ] || [ "$1" == apply ] || [ "$1" == drop ] || [ "$1" == show ]; then
+        git stash $1 $(git stash list | grep -Po "(stash@\{\d+\})(?=: On [^:]+: ${2}$)")
+    else
+        git stash push -m "$1"
     fi
-    bookmark_c=0
-    PROMPT_COMMAND="if [ \$bookmark_c == '0' ]; then bookmark_c=1; else PS1=${PS1@Q}; HISTFILE=${HISTFILE@Q}; history -c; history -r; PROMPT_COMMAND=${PROMPT_COMMAND@Q}; eval ${PROMPT_COMMAND@Q}; fi"
-    PS1=
-    HISTFILE=~/.bookmarks
-    history -c
-    history -r
 }
-
-bookmark () { 
-    tail -1 ~/.bash_history >> ~/.bookmarks
-}
-
-bind '"\C-xff":reverse-search-history' # assuming C-xff is unused
-bind '"\C-b":"cat ~/.bookmarks; echo; bookmark_histfile_swap\C-m\C-xff"'
