@@ -28,8 +28,14 @@ set hidden
 set showcmd
 set autoindent
 set nofixendofline
+set iskeyword+=-
+set cursorline
+set mouse=a
 
 command Bd bn|bd! #
+
+hi CursorLine cterm=none ctermbg=0
+hi CursorLineNr cterm=none ctermbg=0
 
 " ------------------
 
