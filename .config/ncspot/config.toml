@@ -1,12 +1,13 @@
 flip_status_indicators = true
 
 [keybindings]
-"q" = "focus queue"
+"q" = "noop"
+"1" = "focus queue"
 "F1" = "focus queue"
-"w" = "focus library"
+"2" = "focus library"
 "F2" = "focus library"
-"e" = "focus search"
-"?" = "focus search"
+"3" = "focus search"
+"F3" = "focus search"
 "f" = "save"
 "d" = "delete"
 "." = "seek +10000"
