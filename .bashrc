@@ -28,18 +28,13 @@ IFS=$'\n'
 # PS1
 function prompt() {
     if [ "$?" == "0" ]; then 
-        s2='λ'
+        s2="λ:"
     else 
-        s2='!'
+        s2="!:"
     fi
+    s2="$USER:$(cat /proc/$PPID/comm) $s2"
     history -a
-    s1=$(__git_ps1)
-    pwd=$(dirs +0)
-    s1="$s1$(printf "%$(( $COLUMNS - ${#s1} - ${#pwd} ))s" "$(date +%H:%M:%S)")"
-    PS1='\n\[\e[93m\]\w\[\e[90m\]`echo $s1`\[\e[91m\]\n`echo $s2`: \[\e[0m\]'
-    if [[ -n "${ConEmuPID}" ]]; then
-      PS1="$PS1\[\e]9;9;\"\w\"\007\e]9;12\007\]"
-    fi
+    PS1='\n\[\e[90m\]`date +%H:%M:%S` \[\e[93m\]`dirs +0`\[\e[90m\]`__git_ps1`\[\e[91m\]\n`echo $s2` \[\e[0m\]'
 }
 PROMPT_COMMAND=prompt
 
