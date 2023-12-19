@@ -1,0 +1,8 @@
+wm.gaps.inner.size: 10
+!regolith.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-35-52-1305683300847.jpg
+!regolith.lockscreen.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-35-52-1305683300847.jpg
+regolith.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-39-52-Forest-1.jpg
+regolith.lockscreen.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-39-52-Forest-1.jpg
+wm.binding.launcher.window: w
+wm.binding.help: question
+wm.bar.position: top

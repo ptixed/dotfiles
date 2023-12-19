@@ -1,5 +1,15 @@
 #!/bin/bash
 
+. /etc/bash_completion.d/git-prompt
+. /usr/share/doc/fzf/examples/key-bindings.bash
+. /usr/share/bash-completion/completions/git
+
+export PATH="/home/ptixed/.local/bin/:$PATH"
+. "$HOME/.cargo/env"
+
+alias xclip="xclip -selection c"
+alias ls="ls --color --hyperlink=auto"
+
 # general settings
 
 shopt -s globstar
@@ -32,7 +42,7 @@ function prompt() {
     else 
         s2="!:"
     fi
-    s2="$USER:$(cat /proc/$PPID/comm) $s2"
+    s2="$USER@$(cat /proc/$PPID/comm) $s2"
     history -a
     PS1='\n\[\e[90m\]`date +%H:%M:%S` \[\e[93m\]`dirs +0`\[\e[90m\]`__git_ps1`\[\e[91m\]\n`echo $s2` \[\e[0m\]'
 }
