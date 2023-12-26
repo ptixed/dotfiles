@@ -3,6 +3,7 @@
 . /etc/bash_completion.d/git-prompt
 . /usr/share/doc/fzf/examples/key-bindings.bash
 . /usr/share/bash-completion/completions/git
+. ~/.python-venv/bin/activate
 
 export PATH="/home/ptixed/.local/bin/:$PATH"
 . "$HOME/.cargo/env"

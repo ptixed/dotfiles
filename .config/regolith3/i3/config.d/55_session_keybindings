@@ -7,5 +7,4 @@ bindsym $alt+f4 kill
 bindsym $alt+tab workspace back_and_forth
 bindsym $mod+braceleft move workspace to output left
 bindsym $mod+braceright move workspace to output right
-
-smart_borders on
+bindsym Print exec flameshot gui
