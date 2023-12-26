@@ -6,6 +6,9 @@
 
 !.config/
 
+!.config/mpv/
+!.config/mpv/**
+
 !.config/ncspot/
 !.config/ncspot/**
 .config/ncspot/userstate.cbor
