@@ -6,6 +6,9 @@
 
 !.config/
 
+!.config/kitty/
+!.config/kitty/**
+
 !.config/mpv/
 !.config/mpv/**
 
