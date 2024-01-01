@@ -1,30 +1,21 @@
 #!/bin/bash
 
+# not interactive
+[ -z "$PS1" ] && return
+
 . /etc/bash_completion.d/git-prompt
 . /usr/share/doc/fzf/examples/key-bindings.bash
 . /usr/share/bash-completion/completions/git
 . ~/.python-venv/bin/activate
 
-export PATH="/home/ptixed/.local/bin/:$PATH"
-. "$HOME/.cargo/env"
-
-alias xclip="xclip -selection c"
-alias ls="ls --color --hyperlink=auto"
-
-# general settings
-
 shopt -s globstar
 
 stty -ixon -ixoff 2>/dev/null
 
-# use quoted-insert (C-q) to find out keycodes
-bind '"\e[A":history-search-backward' 2>/dev/null
-bind '"\e[B":history-search-forward' 2>/dev/null
-bind 'C-H:backward-kill-word'
-
 export EDITOR=vim
-export HISTSIZE=10000
-export HISTFILESIZE=10000
+export HISTSIZE=20000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoredups:ignorespace
 export GPG_TTY="$(tty)"
 export LESS='-JiwRXS'
 # J # status column for marking with m, and navigating with '
@@ -39,18 +30,19 @@ IFS=$'\n'
 # PS1
 function prompt() {
     if [ "$?" == "0" ]; then 
-        s2="λ:"
+        PS1='\n\[\e[90m\]`date +%H:%M:%S` \[\e[93m\]`dirs +0`\[\e[90m\]`__git_ps1`\[\e[94m\]\n`echo $s2`:\[\e[0m\] '
     else 
-        s2="!:"
+        PS1='\n\[\e[90m\]`date +%H:%M:%S` \[\e[93m\]`dirs +0`\[\e[90m\]`__git_ps1`\[\e[91m\]\n`echo $s2`:\[\e[0m\] '
     fi
-    s2="$USER@$(cat /proc/$PPID/comm) $s2"
+    s2="$USER@$(cat /proc/$PPID/comm)"
     history -a
-    PS1='\n\[\e[90m\]`date +%H:%M:%S` \[\e[93m\]`dirs +0`\[\e[90m\]`__git_ps1`\[\e[91m\]\n`echo $s2` \[\e[0m\]'
 }
 PROMPT_COMMAND=prompt
 
 # completion
 
+alias xclip="xclip -selection c"
+alias ls="ls --color --hyperlink=auto"
 alias grep='grep --color'
 alias d=docker
 alias k=kubectl
@@ -63,11 +55,4 @@ alias gdc='git diff --cached'
 alias gp='git pull'
 alias gpp='git pull && git push'
 alias gs='git status'
-
-stash () {
-    if [ "$1" == pop ] || [ "$1" == apply ] || [ "$1" == drop ] || [ "$1" == show ]; then
-        git stash $1 $(git stash list | grep -Po "(stash@\{\d+\})(?=: On [^:]+: ${2}$)")
-    else
-        git stash push -m "$1"
-    fi
-}
+alias ranger='. ranger'

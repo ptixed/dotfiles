@@ -1,8 +1,34 @@
-wm.gaps.inner.size: 10
-!regolith.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-35-52-1305683300847.jpg
-!regolith.lockscreen.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-35-52-1305683300847.jpg
 regolith.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-39-52-Forest-1.jpg
 regolith.lockscreen.wallpaper.file: /home/ptixed/.local/share/backgrounds/2023-12-19-13-39-52-Forest-1.jpg
+
+wm.gaps.inner.size: 10
+wm.bar.position: top
+
 wm.binding.launcher.window: w
 wm.binding.help: question
-wm.bar.position: top
+i3-wm.binding.shutdown: q
+i3-wm.binding.lock: l
+wm.binding.browser: b
+wm.binding.float_toggle: f
+wm.binding.fullscreen_toggle: Return
+wm.binding.terminal: t
+
+# adding some shit binding to 'disable' them
+# cause there is no way to do it in a clean way 
+
+# prevent Tab conflict
+wm.binding.ws_next: $mod+$alt+Shift+Ctrl+1
+# prevent t conflict
+wm.binding.layout_mode: $mod+$alt+Shift+Ctrl+w
+
+# I don't need these or wouldn't like to press them accidentaly 
+i3-wm.binding.exit_app: $mod+$alt+Shift+Ctrl+2
+i3-wm.binding.kill_app: $mod+$alt+Shift+Ctrl+3
+i3-wm.binding.restart: $mod+$alt+Shift+Ctrl+4
+i3-wm.binding.logout: $mod+$alt+Shift+Ctrl+5
+i3-wm.binding.reboot: $mod+$alt+Shift+Ctrl+6
+i3-wm.binding.sleep: $mod+$alt+Shift+Ctrl+7
+wm.binding.display: $mod+$alt+Shift+Ctrl+8
+wm.binding.wifi: $mod+$alt+Shift+Ctrl+9
+wm.binding.bluetooth: $mod+$alt+Shift+Ctrl+0
+wm.binding.files: $mod+$alt+Shift+Ctrl+q

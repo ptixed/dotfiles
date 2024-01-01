@@ -1,10 +1,7 @@
-# add in /usr/share/regolith/i3/config.d
-# bindsym $mod+l exec $i3-wm.program.lock
-
-# correct conflicts in /etc/regolith/i3/config
-
-bindsym $alt+f4 kill
-bindsym $alt+tab workspace back_and_forth
+bindsym $alt+F4 [con_id="__focused__"] kill
+bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+braceleft move workspace to output left
 bindsym $mod+braceright move workspace to output right
 bindsym Print exec flameshot gui
+
+# bind t to terminal
