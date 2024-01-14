@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# not interactive
-[ -z "$PS1" ] && return
-
 . /etc/bash_completion.d/git-prompt
 . /usr/share/doc/fzf/examples/key-bindings.bash
 . /usr/share/bash-completion/completions/git
-. ~/.python-venv/bin/activate
+. /usr/local/bin/python-venv/bin/activate
 
 shopt -s globstar
 
