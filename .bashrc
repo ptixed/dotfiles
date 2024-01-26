@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $- == *i* ]]; then 
+    . /usr/share/blesh/ble.sh --noattach
+fi
+
 . /etc/bash_completion.d/git-prompt
 . /usr/share/doc/fzf/examples/key-bindings.bash
 . /usr/share/bash-completion/completions/git
@@ -53,3 +57,17 @@ alias gp='git pull'
 alias gpp='git pull && git push'
 alias gs='git status'
 alias ranger='. ranger'
+
+# xinput set-prop $(xinput | grep Touchpad | grep -Po 'id=\K[0-9]+') 352 1 0
+
+[[ ${BLE_VERSION-} ]] && ble-attach
+
+bleopt highlight_syntax=
+bleopt highlight_filename=
+bleopt highlight_variable=
+bleopt complete_auto_delay=1000
+bleopt complete_ambiguous=
+
+ble-bind -m emacs -f C-DEL delete-backward-cword
+ble-bind -m emacs -f up history-search-backward
+ble-bind -m emacs -f down history-search-forward
