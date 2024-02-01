@@ -11,7 +11,7 @@ filetype plugin indent on
 
 fixdel
 set whichwrap+=<,>,h,l,[,]
-
+set viminfo+=n~/.vim/viminfo
 set number
 set tabstop=4
 set shiftwidth=4

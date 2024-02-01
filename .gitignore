@@ -1,10 +1,16 @@
 *
-!.bashrc
+
 !.gitconfig
 !.gitignore
 !.vimrc
 
 !.config/
+
+!.config/btop/
+!.config/btop/**
+
+!.config/fish/
+!.config/fish/**
 
 !.config/kitty/
 !.config/kitty/**
@@ -25,4 +31,5 @@
 !.vim/
 !.vim/**
 .vim/.netrwhist
+.vim/viminfo
 
