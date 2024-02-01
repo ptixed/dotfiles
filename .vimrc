@@ -31,6 +31,7 @@ set nofixendofline
 set iskeyword+=-
 set cursorline
 set mouse=a
+set shell=/usr/bin/fish
 
 command Bd bn|bd! #
 
@@ -38,6 +39,8 @@ hi CursorLine cterm=none ctermbg=0
 hi CursorLineNr cterm=none ctermbg=0
 
 " ------------------
+
+nnoremap <cr> o<esc>
 
 " faster buffer switch
 nnoremap bn :bn<cr>
@@ -62,15 +65,9 @@ vnoremap x "_x
 nnoremap <del> "_x   
 vnoremap <del> "_x
 
-" do not overwrite register when pasting
-vnoremap p "_dp
-
-" insert mode on enter
-nnoremap <cr> i<cr>
-
 " Ctrl-D bash
-inoremap <c-d> <esc>:w<cr>:sh<cr>
-nnoremap <c-d> :w<cr>:sh<cr>
+inoremap <c-d> <esc>:sh<cr>
+nnoremap <c-d> :sh<cr>
 
 " Ctrl-Z undo, Ctrl-R redo
 inoremap <c-z> <esc>ui
