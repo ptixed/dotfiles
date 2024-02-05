@@ -1,15 +1,23 @@
-! super alt l = look
 ! super shift r = reload
 
 ! regolith.wallpaper.file: /home/ptixed/Pictures/wallpapers/forest-1.jpg
 ! regolith.lockscreen.wallpaper.file: /home/ptixed/Pictures/wallpapers/forest-1.jpg
 regolith.wallpaper.file: /home/ptixed/Pictures/wallpapers/girl+car.png
 regolith.lockscreen.wallpaper.file: /home/ptixed/Pictures/wallpapers/girl+car.png
+regolith.look.path: /usr/share/regolith-look/lascaille
+
+# /usr/share/regolith/i3/config.d/70_bar
+wm.bar.position: top
+wm.bar.separatorchar: |
+wm.bar.separator.color: #555555
+wm.bar.background.color: #000000
+
+i3xrocks.value.font: Cascadia Code
+wm.bar.font: Cascadia Code
+i3xrocks.label.time: ""
 
 wm.gaps.inner.size: 10
-wm.bar.position: top
 wm.window.border.size: 0
-wm.floatingwindow.border.size: 0
 
 wm.binding.launcher.window: w
 wm.binding.help: question
@@ -18,7 +26,7 @@ i3-wm.binding.lock: l
 wm.binding.browser: b
 wm.binding.float_toggle: f
 wm.binding.fullscreen_toggle: Return
-wm.binding.terminal: t
+wm.binding.terminal: $mod+$alt+Shift+Ctrl+w
 
 ! adding some shit bindings to 'disable' them
 ! cause there is no way to do it in a clean way 
@@ -26,7 +34,7 @@ wm.binding.terminal: t
 ! prevent Tab conflict
 wm.binding.ws_next: $mod+$alt+Shift+Ctrl+1
 ! prevent t conflict
-wm.binding.layout_mode: $mod+$alt+Shift+Ctrl+w
+wm.binding.layout_mode: $mod+$alt+Shift+Ctrl+~ 
 
 ! I don't need these or wouldn't like to press them accidentaly 
 i3-wm.binding.exit_app: $mod+$alt+Shift+Ctrl+2
@@ -38,5 +46,5 @@ i3-wm.binding.sleep: $mod+$alt+Shift+Ctrl+7
 wm.binding.display: $mod+$alt+Shift+Ctrl+8
 wm.binding.wifi: $mod+$alt+Shift+Ctrl+9
 wm.binding.bluetooth: $mod+$alt+Shift+Ctrl+0
-wm.binding.files: $mod+$alt+Shift+Ctrl+qregolith.look.path: /usr/share/regolith-look/ayu-dark
-regolith.look.path: /usr/share/regolith-look/lascaille
+wm.binding.files: $mod+$alt+Shift+Ctrl+q
+

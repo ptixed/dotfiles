@@ -1,0 +1,23 @@
+# https://man.archlinux.org/man/picom.1#CONFIGURATION_FILES
+# https://github.com/yshui/picom/blob/next/picom.sample.conf
+
+vsync = true
+
+corner-radius = 15
+unredir-if-possible = true
+rounded-corners-exclude = [
+  "window_type = 'dock'",
+  "width >= 1920 && height >= 1000"
+];
+
+fading = true
+fade-delta = 7
+
+shadow = true
+shadow-exclude = [
+  "window_type = 'dock'",
+  "window_type = 'menu'"
+];
+clip-shadow-above = [
+  "window_type = 'dock'"
+];
