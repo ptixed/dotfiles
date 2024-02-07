@@ -1,0 +1,1 @@
+set "HardDPMS" to "false" in /etc/X11/xorg.conf

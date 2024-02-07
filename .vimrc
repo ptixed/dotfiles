@@ -32,6 +32,7 @@ set iskeyword+=-
 set cursorline
 set mouse=a
 set shell=/usr/bin/fish
+set term=kitty
 
 command Bd bn|bd! #
 

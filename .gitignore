@@ -8,6 +8,7 @@
 
 !.config/btop/
 !.config/btop/**
+.config/btop/btop.log
 
 !.config/fish/
 !.config/fish/**
@@ -33,3 +34,6 @@
 .vim/.netrwhist
 .vim/viminfo
 
+!Documents
+!Documents/linux-fixes/
+!Documents/linux-fixes/**

@@ -5,3 +5,4 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 export GLFW_IM_MODULE=ibus # fixes japanese input in kitty
+. "$HOME/.cargo/env"
