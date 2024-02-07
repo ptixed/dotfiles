@@ -1,0 +1,118 @@
+# https://github.com/onprem/dotfiles/blob/master/config/i3/config
+
+set $mod Mod4
+set $alt Mod1
+
+font pango:Cascadia Code
+
+# TODO: 
+# anyth start + alt + backspace
+# first screen not turning off
+# bar and ilia theme
+# ilia no reboot option -> replace with something else?
+# bar
+# bluetooth manager
+# gnome keyring autoulock
+# replace brightnessctl with polybar?
+# remove libsecret-1-dev
+# music daemon?
+
+floating_modifier $mod
+
+bindsym $mod+f floating toggle
+
+bindsym $alt+F4 kill
+
+bindsym $mod+w focus up
+bindsym $mod+s focus down
+bindsym $mod+a focus left
+bindsym $mod+d focus right
+
+bindsym $mod+Shift+w move up
+bindsym $mod+Shift+s move down
+bindsym $mod+Shift+a move left
+bindsym $mod+Shift+d move right
+
+# TODO: swap screens instead
+bindsym $mod+braceleft move workspace to output left
+bindsym $mod+braceright move workspace to output right
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+bindsym $mod+Return fullscreen toggle
+
+set $ws1 "1:一"
+set $ws2 "2:二"
+set $ws3 "3:三"
+set $ws4 "4:四"
+set $ws5 "5:五"
+set $ws6 "6:六"
+set $ws7 "7:七"
+set $ws8 "8:八"
+set $ws9 "9:九"
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+bindsym $mod+$alt+1 move container to workspace $ws1; workspace number $ws1
+bindsym $mod+$alt+2 move container to workspace $ws2; workspace number $ws2
+bindsym $mod+$alt+3 move container to workspace $ws3; workspace number $ws3
+bindsym $mod+$alt+4 move container to workspace $ws4; workspace number $ws4
+bindsym $mod+$alt+5 move container to workspace $ws5; workspace number $ws5
+bindsym $mod+$alt+6 move container to workspace $ws6; workspace number $ws6
+bindsym $mod+$alt+7 move container to workspace $ws7; workspace number $ws7
+bindsym $mod+$alt+8 move container to workspace $ws8; workspace number $ws8
+bindsym $mod+$alt+9 move container to workspace $ws9; workspace number $ws9
+
+focus_follows_mouse no
+mouse_warping none
+popup_during_fullscreen smart
+
+for_window [class="^.*"] border pixel 0
+
+smart_gaps on
+gaps inner 10px
+
+bindsym $mod+r restart
+bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3 --no-unlock-indicator
+
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3 --no-unlock-indicator
+exec --no-startup-id picom -b
+exec --no-startup-id nm-applet
+exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id polybar-msg cmd quit; polybar
+
+# TODO
+# set $refresh_i3status killall -SIGUSR1 i3status-rs
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% # && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% # && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle # && $refresh_i3status
+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 20%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 20%+
+
+# bindsym $mod+b exec --no-startup-id gtk-launch $(xdg-settings get default-web-browser)
+bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
+bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
+bindsym $mod+space exec --no-startup-id ilia -p apps # TODO: style
+
+for_window [title="Proton VPN"] floating enable
+for_window [title="Remmina"] floating enable
+
+# bar {
+#     position top
+#     mode dock
+#     separator_symbol "|"
+#     status_command i3xrocks -u ~/.config/regolith3/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d
+#     strip_workspace_numbers yes
+#     workspace_min_width 36
+# }

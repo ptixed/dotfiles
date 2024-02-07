@@ -1,5 +1,6 @@
 *
 
+!.bash_profile
 !.gitconfig
 !.gitignore
 !.vimrc
@@ -14,6 +15,9 @@
 !.config/fish/**
 .config/fish/fish_variables
 
+!.config/i3/
+!.config/i3/**
+
 !.config/kitty/
 !.config/kitty/**
 
@@ -24,11 +28,11 @@
 !.config/ncspot/**
 .config/ncspot/userstate.cbor
 
+!.config/picom/
+!.config/picom/**
+
 !.config/ranger/
 !.config/ranger/**
-
-!.config/regolith3/
-!.config/regolith3/**
 
 !.vim/
 !.vim/**

@@ -1,7 +1,0 @@
-bindsym $alt+F4 [con_id="__focused__"] kill
-bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+braceleft move workspace to output left
-bindsym $mod+braceright move workspace to output right
-bindsym Print exec flameshot gui
-bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus /usr/bin/kitty
-
