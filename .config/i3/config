@@ -1,16 +1,18 @@
-# https://github.com/onprem/dotfiles/blob/master/config/i3/config
-
 set $mod Mod4
 set $alt Mod1
 
-font pango:Cascadia Code
+# https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
+font pango:CaskaydiaMonoNerdFont
 
 # TODO: 
 # ilia no reboot option -> replace with something else?
-# replace brightnessctl with polybar? remove polybar
-# CPU, RAM, KBD, WIFI, TIME, MIC, VOL, WINNAME
+# CPU
+# KBD
+# WINNAME
 # music bar? soma track name
 # fancy font with app icons for bar workspaces
+# closing lid does not turn off screen (acpi rule?)
+# TODO: saving and restoring workspaces
 
 floating_modifier $mod
 
@@ -36,15 +38,15 @@ bindsym $mod+v split v
 
 bindsym $mod+Return fullscreen toggle
 
-set $ws1 "1:1"
-set $ws2 "2:2"
+set $ws1 "1:<big></big>"
+set $ws2 "2:<big></big>"
 set $ws3 "3:3"
 set $ws4 "4:4"
 set $ws5 "5:5"
 set $ws6 "6:6"
 set $ws7 "7:7"
 set $ws8 "8:8"
-set $ws9 "9:9"
+set $ws9 "9:<big>󰢹</big>"
 
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -75,54 +77,53 @@ for_window [class="^.*"] border pixel 0
 
 smart_gaps on
 gaps inner 10px
+gaps top -10px
 
 bindsym $mod+r restart
 bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3
 exec --no-startup-id picom -b
-exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-
-# exec_always --no-startup-id polybar-msg cmd quit; polybar # TODO: remove
 exec_always --no-startup-id autorandr --change
 
-# TODO
-# set $refresh_i3status killall -SIGUSR1 i3status-rs
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% # && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% # && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle # && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && kill -USR1 $(cat /tmp/i3-bar/pid)
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && kill -USR1 $(cat /tmp/i3-bar/pid)
 
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 20%-
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 20%+
 
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
 bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
-bindsym $mod+space exec --no-startup-id ilia -p apps # TODO: style
+bindsym $mod+space exec --no-startup-id ilia -p apps
 
 # ibus-setup: <super>+backspace = input method switch
 
 for_window [title="Proton VPN"] floating enable
 for_window [title="Remmina"] floating enable
+assign [title="Remmina"] $ws9
 
 bar {
+    i3bar_command i3bar --transparency
     position top
     mode dock
-    separator_symbol ":|:"
+    separator_symbol " | "
     status_command ~/.config/i3/bar.sh
     strip_workspace_numbers yes
     workspace_min_width 36
+    padding 6px 16px 0px 6px
+    tray_output none
 
     colors {
-        background #000000
-        statusline #ffffff
-        separator  #444444
+        background #00000000
+        statusline #ffffffaa
+        separator  #ffffffff
 
-        #                  border  background text
-        focused_workspace  #d98736 #000000 #ffffff
-        active_workspace   #000000 #000000 #ffffff
-        inactive_workspace #000000 #000000 #666666
+        #                  border    background text
+        focused_workspace  #00000000 #00000000 #ed9f34ff
+        active_workspace   #00000000 #00000000 #ffffffff
+        inactive_workspace #00000000 #00000000 #ffffff88
+        urgent_workspace   #00000000 #00000000 #d9581cff
     }
 }
