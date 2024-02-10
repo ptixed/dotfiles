@@ -19,7 +19,7 @@ function memory_loop() {
     memory_pid=$!
 }
 function memory_get() {
-    echo -n " "
+    echo " "
     free | grep Mem | perl -ne 'my @a = split " "; printf("%.0f%%", 100*$a[2]/$a[1])'
 }
 
@@ -28,9 +28,9 @@ function volume_loop() {
 }
 function volume_get() {
     if [ "$(pactl get-sink-mute @DEFAULT_SINK@)" == "Mute: no" ]; then
-        echo -n ' '
+        echo ' '
     else
-        echo -n ' '
+        echo ' '
     fi
     pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+%' | head -1
 }
@@ -40,19 +40,28 @@ function mic_loop() {
 }
 function mic_get() {
     if [ "$(pactl get-source-mute @DEFAULT_SOURCE@)" == "Mute: no" ]; then
-        echo -n ' '
+        echo ' '
     else
-        echo -n ' '
+        echo ' '
     fi
     pactl get-source-volume @DEFAULT_SOURCE@| grep -Po '[0-9]+%' | head -1
 }
 
+network_pid=
 function network_loop() {
-    network_get > network
+    kill $network_pid
+    while true; do
+        network_get > network
+        sleep 5
+    done &
+    network_pid=$!
 }
 function network_get() {
-    /usr/sbin/iwgetid -r # TODO: show status/connected or not
-    echo -n " 󰖩 "
+    if nc -zw1 1.1.1.1 53; then
+        echo "󰖩 "
+    else
+        echo "󰖪 "
+    fi    
 }
 
 window_pid=
@@ -65,11 +74,35 @@ function window_loop() {
     window_pid=$!
 }
 function window_get() {
-    xdotool getwindowfocus getwindowname # TODO i3 ipc socket
+    xdotool getwindowfocus getwindowname | jq -R | sed -E 's/^"(.*)"$/\1/' # TODO i3 ipc socket
 }
 
-date_tzs=("" "EST5EDT" "CST6CDT" "UTC")
-date_tzs_names=("" " EST" " CST" " UTC")
+music_pid=
+function music_toggle() {
+    if [ "$music_pid" == "" ]; then
+        (
+            curl https://ice5.somafm.com/defcon-128-mp3 | ffplay -nodisp - &
+            pid=$!
+            trap "kill $pid" EXIT
+            while true; do 
+                meta=$(curl https://somafm.com/songs/defcon.xml)
+                title=$(echo "$meta" | grep --color -Po 'title.*CDATA\[\K[^\]]+' | head -1)
+                artist=$(echo "$meta" | grep --color -Po 'artist.*CDATA\[\K[^\]]+' | head -1)
+                echo "$artist: $title" > music
+                sleep 5
+            done
+        ) &
+        music_pid=$!
+    else
+        kill $music_pid
+        echo "󰝚" > music
+        music_pid=
+    fi
+}
+echo "󰝚" > music
+
+date_tzs=("Europe/Warsaw" "America/New_York" "America/Chicago" "UTC")
+date_tzs_names=("" " ET" " CT" " UTC")
 date_tzs_i=0
 date_tzs_n=4
 date_pid=
@@ -88,24 +121,19 @@ function date_get() {
 }
 
 function print_all() {
-    (
+    {
         echo '[{"full_text":""}'
-        for f in window memory volume mic date network; do
+        for f in window memory music mic volume date network; do
             cat <<EOT 
             ,{
                 "name":"$f",
                 "full_text":"$(cat $f)",
-                "markup": "pango",
-                "border":"#000000",
-                "border_bottom":0,
-                "border_right":0,
-                "border_left":0,
-                "border_top":0
+                "background":"#00000001"
             }
 EOT
         done
         echo '],'
-    ) | tr -d '\n' 
+     } | tr -d '\n' 
 }
 
 date_loop
@@ -157,6 +185,9 @@ while read -r line; do
             pactl set-sink-volume @DEFAULT_SINK@ -5%
             volume_loop
             ;;
+        memory,$rmb)
+            kitty btop &
+            ;;
         mic,$lmb)
             pactl set-source-mute @DEFAULT_SOURCE@ toggle
             mic_loop
@@ -171,6 +202,9 @@ while read -r line; do
             ;;
         network,$rmb)
             nm-connection-editor &
+            ;;
+        music,$lmb)
+            music_toggle
             ;;
     esac
 done

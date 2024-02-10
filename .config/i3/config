@@ -5,14 +5,20 @@ set $alt Mod1
 font pango:CaskaydiaMonoNerdFont
 
 # TODO: 
-# ilia no reboot option -> replace with something else?
 # CPU
 # KBD
-# WINNAME
 # music bar? soma track name
-# fancy font with app icons for bar workspaces
-# closing lid does not turn off screen (acpi rule?)
-# TODO: saving and restoring workspaces
+# closing lid does not turn off screen (acpi rule? + arandr)
+# ibus-gtk3
+# ibus-gtk4
+# ibus-gtk
+# isc-dhcp-common
+# lvm2
+# thin-provisioning-tools
+# remove all useless libs
+# intel/mesa/i965 driver/vdpau/va/vesa
+#  night light ?
+# systemctl and btop unused services
 
 floating_modifier $mod
 
@@ -94,9 +100,10 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 20%-
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 20%+
 
+bindsym Print exec flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
 bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
-bindsym $mod+space exec --no-startup-id ilia -p apps
+bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 
 # ibus-setup: <super>+backspace = input method switch
 
@@ -108,17 +115,17 @@ bar {
     i3bar_command i3bar --transparency
     position top
     mode dock
-    separator_symbol " | "
+    separator_symbol " · "
     status_command ~/.config/i3/bar.sh
     strip_workspace_numbers yes
     workspace_min_width 36
-    padding 6px 16px 0px 6px
+    padding 6px 6px 0px 6px
     tray_output none
 
     colors {
         background #00000000
         statusline #ffffffaa
-        separator  #ffffffff
+        separator  #ffffffaa
 
         #                  border    background text
         focused_workspace  #00000000 #00000000 #ed9f34ff

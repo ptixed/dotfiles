@@ -1,0 +1,2 @@
+# strace gtk-launch btop
+ln -s /usr/bin/kitty /usr/bin/gnome-terminal
