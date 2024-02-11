@@ -4,6 +4,7 @@
 
 trap 'kill $(jobs -p)' EXIT
 trap 'volume_loop' USR1
+trap 'lang_switch' USR2
 
 mkdir -p /tmp/i3-bar
 cd /tmp/i3-bar
@@ -13,15 +14,28 @@ memory_pid=
 function memory_loop() {
     kill $memory_pid
     while true; do
-        memory_get > memory
+        cpu0=$(grep 'cpu ' /proc/stat)
+        cpu0usr=$(echo "$cpu0" | cut -d' ' -f3)
+        cpu0sys=$(echo "$cpu0" | cut -d' ' -f5)
+        cpu0idl=$(echo "$cpu0" | cut -d' ' -f6)
         sleep 5
+        cpu1=$(grep 'cpu ' /proc/stat)
+        cpu1usr=$(echo "$cpu1" | cut -d' ' -f3)
+        cpu1sys=$(echo "$cpu1" | cut -d' ' -f5)
+        cpu1idl=$(echo "$cpu1" | cut -d' ' -f6)
+        {
+            n=$(( ($cpu1usr+$cpu1sys-$cpu0usr-$cpu0sys) ))
+            n=$(( 100*$n/($n + $cpu1idl - $cpu0idl) ))
+            if [ ${#n} == 1 ]; then
+                n=0$n
+            fi
+            echo "$n%  "
+            free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
+        } > memory
     done &
     memory_pid=$!
 }
-function memory_get() {
-    echo " "
-    free | grep Mem | perl -ne 'my @a = split " "; printf("%.0f%%", 100*$a[2]/$a[1])'
-}
+# TODO: memory_get
 
 function volume_loop() {
     volume_get > volume
@@ -44,7 +58,7 @@ function mic_get() {
     else
         echo ' '
     fi
-    pactl get-source-volume @DEFAULT_SOURCE@| grep -Po '[0-9]+%' | head -1
+    pactl get-source-volume @DEFAULT_SOURCE@ | grep -Po '[0-9]+%' | head -1
 }
 
 network_pid=
@@ -67,14 +81,25 @@ function network_get() {
 window_pid=
 function window_loop() {
     kill $window_pid
+    xdotool getwindowfocus getwindowname | jq -R | sed -E 's/^"(.*)"$/\1/' > window
     while true; do
-        window_get > window
-        sleep 1
+        { 
+            echo -n i3-ipc
+            echo -n 0a00000002000000 | xxd -p -r 
+            echo -n '["window"]'
+        } | nc -U $(i3 --get-socketpath) | {
+            while true; do
+                header=$(head -c14 | xxd -p)
+                len=$(echo "$header" | sed -E 's/.{12}(..)(..)(..)(..).*/ibase=16; \U\4\3\2\1/' | bc)
+                body=$(head -c $len)
+                window=$(echo "$body" | jq .container.name)
+                if [ "$window" != "null" ]; then
+                    echo "$window" | sed -E 's/^"(.*)"$/\1/' > window
+                fi
+            done
+        } 
     done &
     window_pid=$!
-}
-function window_get() {
-    xdotool getwindowfocus getwindowname | jq -R | sed -E 's/^"(.*)"$/\1/' # TODO i3 ipc socket
 }
 
 music_pid=
@@ -86,8 +111,8 @@ function music_toggle() {
             trap "kill $pid" EXIT
             while true; do 
                 meta=$(curl https://somafm.com/songs/defcon.xml)
-                title=$(echo "$meta" | grep --color -Po 'title.*CDATA\[\K[^\]]+' | head -1)
-                artist=$(echo "$meta" | grep --color -Po 'artist.*CDATA\[\K[^\]]+' | head -1)
+                title=$(echo "$meta" | grep -Po 'title.*CDATA\[\K[^\]]+' | head -1)
+                artist=$(echo "$meta" | grep -Po 'artist.*CDATA\[\K[^\]]+' | head -1)
                 echo "$artist: $title" > music
                 sleep 5
             done
@@ -100,6 +125,25 @@ function music_toggle() {
     fi
 }
 echo "󰝚" > music
+
+function lang_loop() {
+    lang_get > lang
+}
+function lang_get() {
+    if [ "$(ibus engine)" == "xkb:pl::pol" ]; then
+        echo "PL"
+    else
+        echo "JP"
+    fi
+}
+function lang_switch() {
+    if [ "$(ibus engine)" == "xkb:pl::pol" ]; then
+        ibus engine anthy
+    else
+        ibus engine xkb:pl::pol
+    fi
+    lang_loop
+}
 
 date_tzs=("Europe/Warsaw" "America/New_York" "America/Chicago" "UTC")
 date_tzs_names=("" " ET" " CT" " UTC")
@@ -123,7 +167,7 @@ function date_get() {
 function print_all() {
     {
         echo '[{"full_text":""}'
-        for f in window memory music mic volume date network; do
+        for f in window memory music mic volume lang date network; do
             cat <<EOT 
             ,{
                 "name":"$f",
@@ -137,6 +181,7 @@ EOT
 }
 
 date_loop
+lang_loop
 memory_loop
 mic_loop
 network_loop
@@ -163,7 +208,7 @@ scroll_up=4
 scroll_down=5
 
 read
-while read -r line; do
+while read line; do
     case $(echo "$line" | sed 's/^,//' | jq -r '"\(.name),\(.button)"') in
         date,$scroll_up)
             date_tzs_i=$(( ($date_tzs_i+1)%$date_tzs_n ))
@@ -205,6 +250,9 @@ while read -r line; do
             ;;
         music,$lmb)
             music_toggle
+            ;;
+        lang,$lmb)
+            lang_switch
             ;;
     esac
 done

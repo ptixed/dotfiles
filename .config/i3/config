@@ -5,10 +5,7 @@ set $alt Mod1
 font pango:CaskaydiaMonoNerdFont
 
 # TODO: 
-# CPU
-# KBD
-# music bar? soma track name
-# closing lid does not turn off screen (acpi rule? + arandr)
+# SOMA FAV
 # ibus-gtk3
 # ibus-gtk4
 # ibus-gtk
@@ -17,8 +14,11 @@ font pango:CaskaydiaMonoNerdFont
 # thin-provisioning-tools
 # remove all useless libs
 # intel/mesa/i965 driver/vdpau/va/vesa
-#  night light ?
 # systemctl and btop unused services
+# lua cookie
+# autorandr postswitch not triggering?
+# todo app
+# pihole does not make sense?
 
 floating_modifier $mod
 
@@ -44,15 +44,15 @@ bindsym $mod+v split v
 
 bindsym $mod+Return fullscreen toggle
 
-set $ws1 "1:<big></big>"
-set $ws2 "2:<big></big>"
+set $ws1 "1:1"
+set $ws2 "2:2"
 set $ws3 "3:3"
 set $ws4 "4:4"
 set $ws5 "5:5"
 set $ws6 "6:6"
 set $ws7 "7:7"
 set $ws8 "8:8"
-set $ws9 "9:<big>󰢹</big>"
+set $ws9 "9:9"
 
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -104,12 +104,10 @@ bindsym Print exec flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
 bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
 bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
-
-# ibus-setup: <super>+backspace = input method switch
+bindsym $mod+BackSpace exec --no-startup-id kill -USR2 $(cat /tmp/i3-bar/pid)
 
 for_window [title="Proton VPN"] floating enable
 for_window [title="Remmina"] floating enable
-assign [title="Remmina"] $ws9
 
 bar {
     i3bar_command i3bar --transparency
