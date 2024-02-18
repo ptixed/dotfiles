@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # https://i3wm.org/docs/i3bar-protocol.html
+# https://www.nerdfonts.com/cheat-sheet
 
 trap 'kill $(jobs -p)' EXIT
-trap 'volume_loop' USR1
+trap 'volume_loop; battery_loop;' USR1
 trap 'lang_switch' USR2
 
 mkdir -p /tmp/i3-bar
@@ -14,51 +15,55 @@ memory_pid=
 function memory_loop() {
     kill $memory_pid
     while true; do
-        cpu0=$(grep 'cpu ' /proc/stat)
-        cpu0usr=$(echo "$cpu0" | cut -d' ' -f3)
-        cpu0sys=$(echo "$cpu0" | cut -d' ' -f5)
-        cpu0idl=$(echo "$cpu0" | cut -d' ' -f6)
-        sleep 5
-        cpu1=$(grep 'cpu ' /proc/stat)
-        cpu1usr=$(echo "$cpu1" | cut -d' ' -f3)
-        cpu1sys=$(echo "$cpu1" | cut -d' ' -f5)
-        cpu1idl=$(echo "$cpu1" | cut -d' ' -f6)
-        {
-            n=$(( ($cpu1usr+$cpu1sys-$cpu0usr-$cpu0sys) ))
-            n=$(( 100*$n/($n + $cpu1idl - $cpu0idl) ))
-            if [ ${#n} == 1 ]; then
-                n=0$n
-            fi
-            echo "$n%  "
-            free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
-        } > memory
+        memory=$(memory_get)
+        echo "$memory" > memory
     done &
     memory_pid=$!
 }
-# TODO: memory_get
+function memory_get() {
+    cpu0=$(grep 'cpu ' /proc/stat)
+    cpu0usr=$(echo "$cpu0" | cut -d' ' -f3)
+    cpu0sys=$(echo "$cpu0" | cut -d' ' -f5)
+    cpu0idl=$(echo "$cpu0" | cut -d' ' -f6)
+    sleep 5
+    cpu1=$(grep 'cpu ' /proc/stat)
+    cpu1usr=$(echo "$cpu1" | cut -d' ' -f3)
+    cpu1sys=$(echo "$cpu1" | cut -d' ' -f5)
+    cpu1idl=$(echo "$cpu1" | cut -d' ' -f6)
+    
+    n=$(( ($cpu1usr+$cpu1sys-$cpu0usr-$cpu0sys) ))
+    n=$(( 100*$n/($n + $cpu1idl - $cpu0idl) ))
+    if [ ${#n} == 1 ]; then
+        n=0$n
+    fi
+    echo " $n%  "
+    free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
+}
 
 function volume_loop() {
     volume_get > volume
 }
 function volume_get() {
-    if [ "$(pactl get-sink-mute @DEFAULT_SINK@)" == "Mute: no" ]; then
-        echo ' '
-    else
+    state=$(wpctl get-volume @DEFAULT_SINK@)
+    if  [[ "$state" == *MUTED* ]] then
         echo ' '
+    else
+        echo ' '
     fi
-    pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]+%' | head -1
+    echo "$state" | sed -E -e 's/.*([0-9])\.([0-9][0-9]).*/\1\2%/' -e 's/^0//g'
 }
 
 function mic_loop() {
     mic_get > mic
 }
 function mic_get() {
-    if [ "$(pactl get-source-mute @DEFAULT_SOURCE@)" == "Mute: no" ]; then
-        echo ' '
-    else
+    state=$(wpctl get-volume @DEFAULT_SOURCE@)
+    if  [[ "$state" == *MUTED* ]] then
         echo ' '
+    else
+        echo ' '
     fi
-    pactl get-source-volume @DEFAULT_SOURCE@ | grep -Po '[0-9]+%' | head -1
+    echo "$state" | sed -E -e 's/.*([0-9])\.([0-9][0-9]).*/\1\2%/' -e 's/^0//g'
 }
 
 network_pid=
@@ -76,6 +81,35 @@ function network_get() {
     else
         echo "󰖪 "
     fi    
+}
+
+battery_pid=
+function battery_loop() {
+    kill $battery_loop
+    while true; do 
+        battery_get > battery
+        sleep 60
+    done &
+    battery_pid=$!
+}
+function battery_get() {
+    case $(cat /sys/class/power_supply/BAT0/capacity) in
+        100|9?|8?)
+            echo "  "
+            ;;
+        6?|7?)
+            echo "  "
+            ;;
+        4?|5?)
+            echo "  "
+            ;;
+        2?|3?)
+            echo "  "
+            ;;
+        *) 
+            echo "  "
+            ;;
+    esac
 }
 
 window_pid=
@@ -120,20 +154,20 @@ function music_toggle() {
         music_pid=$!
     else
         kill $music_pid
-        echo "󰝚" > music
+        echo "󰐹" > music
         music_pid=
     fi
 }
-echo "󰝚" > music
+echo "󰐹" > music
 
 function lang_loop() {
     lang_get > lang
 }
 function lang_get() {
-    if [ "$(ibus engine)" == "xkb:pl::pol" ]; then
-        echo "PL"
-    else
+    if [ "$(ibus engine)" != "xkb:pl::pol" ]; then
         echo "JP"
+    else
+        echo "PL"
     fi
 }
 function lang_switch() {
@@ -164,18 +198,38 @@ function date_get() {
     TZ=$tz date "+%b %d %a %H:%M$tz_name"
 }
 
+function print_one() {
+    if [ "$2" == "true" ]; then
+        cat <<EOT 
+        ,{
+            "name": "$1",
+            "full_text": "$(cat $1)"
+        }
+EOT
+    else
+        cat <<EOT 
+        ,{
+            "name": "$1",
+            "full_text": "$(cat $1)",
+            "separator": false,
+            "separator_block_width": 13
+        }
+EOT
+    fi
+}
+
 function print_all() {
     {
         echo '[{"full_text":""}'
-        for f in window memory music mic volume lang date network; do
-            cat <<EOT 
-            ,{
-                "name":"$f",
-                "full_text":"$(cat $f)",
-                "background":"#00000001"
-            }
-EOT
-        done
+        print_one window true
+        print_one volume true
+        print_one mic true
+        print_one music true
+        print_one memory true
+        print_one date true
+        print_one lang false
+        print_one network false
+        print_one battery false
         echo '],'
      } | tr -d '\n' 
 }
@@ -187,6 +241,7 @@ mic_loop
 network_loop
 volume_loop
 window_loop
+battery_loop
 
 # wait for data
 sleep 1
@@ -219,30 +274,30 @@ while read line; do
             date_loop
             ;;
         volume,$lmb)
-            pactl set-sink-mute @DEFAULT_SINK@ toggle
+            wpctl set-mute @DEFAULT_SINK@ toggle
             volume_loop
             ;;
         volume,$scroll_up)
-            pactl set-sink-volume @DEFAULT_SINK@ +5%
+            wpctl set-volume @DEFAULT_SINK@ 0.05+
             volume_loop
             ;;
         volume,$scroll_down)
-            pactl set-sink-volume @DEFAULT_SINK@ -5%
+            wpctl set-volume @DEFAULT_SINK@ 0.05-
             volume_loop
             ;;
         memory,$rmb)
             kitty btop &
             ;;
         mic,$lmb)
-            pactl set-source-mute @DEFAULT_SOURCE@ toggle
+            wpctl set-mute @DEFAULT_SOURCE@ toggle
             mic_loop
             ;;
         mic,$scroll_up)
-            pactl set-source-volume @DEFAULT_SOURCE@ +5%
+            wpctl set-volume @DEFAULT_SOURCE@ 0.05+
             mic_loop
             ;;
         mic,$scroll_down)
-            pactl set-source-volume @DEFAULT_SOURCE@ -5%
+            wpctl set-volume @DEFAULT_SOURCE@ 0.05-
             mic_loop
             ;;
         network,$rmb)

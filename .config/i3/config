@@ -6,17 +6,10 @@ font pango:CaskaydiaMonoNerdFont
 
 # TODO: 
 # SOMA FAV
-# ibus-gtk3
-# ibus-gtk4
-# ibus-gtk
-# isc-dhcp-common
-# lvm2
-# thin-provisioning-tools
-# remove all useless libs
-# intel/mesa/i965 driver/vdpau/va/vesa
+# review packages once more taking byteness into account
 # systemctl and btop unused services
 # lua cookie
-# autorandr postswitch not triggering?
+# autorandr not working when closing lid
 # todo app
 # pihole does not make sense?
 
@@ -83,7 +76,7 @@ for_window [class="^.*"] border pixel 0
 
 smart_gaps on
 gaps inner 10px
-gaps top -10px
+# gaps top -10px
 
 bindsym $mod+r restart
 bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
@@ -94,11 +87,15 @@ exec --no-startup-id nitrogen --restore
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id autorandr --change
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && kill -USR1 $(cat /tmp/i3-bar/pid)
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && kill -USR1 $(cat /tmp/i3-bar/pid)
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05+ && kill -USR1 $(cat /tmp/i3-bar/pid)
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05- && kill -USR1 $(cat /tmp/i3-bar/pid)
 
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 20%-
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 20%+
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 bindsym Print exec flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
@@ -110,7 +107,7 @@ for_window [title="Proton VPN"] floating enable
 for_window [title="Remmina"] floating enable
 
 bar {
-    i3bar_command i3bar --transparency
+    # i3bar_command i3bar --transparency
     position top
     mode dock
     separator_symbol " · "
