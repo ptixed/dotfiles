@@ -14,15 +14,15 @@ local languages = {
 --          If subtitles are found for the first language,
 --          other languages will NOT be downloaded,
 --          so put your preferred language first:
---            { 'Polish', 'pl', 'pol' },
+            { 'Polish', 'pl', 'pol' },
 --          { 'Dutch', 'nl', 'dut' },
 --          { 'Spanish', 'es', 'spa' },
 --          { 'French', 'fr', 'fre' },
 --          { 'German', 'de', 'ger' },
 --          { 'Italian', 'it', 'ita' },
 --          { 'Portuguese', 'pt', 'por' },
---            { 'Russian', 'ru', 'rus' },
-          { 'English', 'en', 'eng' },
+--          { 'Russian', 'ru', 'rus' },
+            { 'English', 'en', 'eng' },
 --          { 'Chinese', 'zh', 'chi' },
 --          { 'Arabic', 'ar', 'ara' },
 }
@@ -33,10 +33,15 @@ local languages = {
 --          for the functioning of the script!
 --          If you use any of these services, simply uncomment it
 --          and replace 'USERNAME' and 'PASSWORD' with your own:
+
+local handle = io.popen("secret-tool lookup password opensubtitles.org")
+local opensubtitles_password = handle:read("*a")
+handle:close()
+
 local logins = {
 --          { '--addic7ed', 'USERNAME', 'PASSWORD' },
 --          { '--legendastv', 'USERNAME', 'PASSWORD' },
-          { '--opensubtitles', 'pk6610', 'p1+yqtYv6/ZiIxpbFXDp0haglaSBwL15ImBAATwMXIg' },
+            { '--opensubtitles', 'pk6610', opensubtitles_password },
 --          { '--subscenter', 'USERNAME', 'PASSWORD' },
 }
 --=============================================================================

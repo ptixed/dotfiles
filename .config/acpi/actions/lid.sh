@@ -12,7 +12,7 @@ case "$1" in
         else
             DISPLAY=:0 sudo -u $user xrandr --output eDP-1 --off
         fi
-        DISPLAY=:0 sudo -u $user autorandr --change
+        DISPLAY=:0 sudo -u $user autorandr --change --force
         ;;
 esac
 

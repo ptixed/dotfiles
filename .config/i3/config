@@ -2,16 +2,7 @@ set $mod Mod4
 set $alt Mod1
 
 # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
-font pango:CaskaydiaMonoNerdFont
-
-# TODO: 
-# SOMA FAV
-# review packages once more taking byteness into account
-# systemctl and btop unused services
-# lua cookie
-# autorandr not working when closing lid
-# todo app
-# pihole does not make sense?
+font pango:CaskaydiaMono Nerd Font 
 
 floating_modifier $mod
 
@@ -67,10 +58,12 @@ bindsym $mod+$alt+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+$alt+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+$alt+9 move container to workspace $ws9; workspace $ws9
 
+bindsym $alt+Tab workspace back_and_forth
+workspace_auto_back_and_forth yes
+
 focus_follows_mouse no
 mouse_warping none
 popup_during_fullscreen smart
-workspace_auto_back_and_forth yes
 
 for_window [class="^.*"] border pixel 0
 
@@ -81,7 +74,7 @@ gaps inner 10px
 bindsym $mod+r restart
 bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
 
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3
 exec --no-startup-id picom -b
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -103,11 +96,10 @@ bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
 bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 bindsym $mod+BackSpace exec --no-startup-id kill -USR2 $(cat /tmp/i3-bar/pid)
 
-for_window [title="Proton VPN"] floating enable
 for_window [title="Remmina"] floating enable
 
 bar {
-    # i3bar_command i3bar --transparency
+    i3bar_command i3bar --transparency
     position top
     mode dock
     separator_symbol " · "
@@ -118,14 +110,14 @@ bar {
     tray_output none
 
     colors {
-        background #00000000
+        background #000000aa
         statusline #ffffffaa
         separator  #ffffffaa
 
         #                  border    background text
-        focused_workspace  #00000000 #00000000 #ed9f34ff
-        active_workspace   #00000000 #00000000 #ffffffff
-        inactive_workspace #00000000 #00000000 #ffffff88
-        urgent_workspace   #00000000 #00000000 #d9581cff
+        focused_workspace  #000000aa #000000aa #ed9f34ff
+        active_workspace   #000000aa #000000aa #ffffffff
+        inactive_workspace #000000aa #000000aa #ffffff88
+        urgent_workspace   #000000aa #000000aa #d9581cff
     }
 }

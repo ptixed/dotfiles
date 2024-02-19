@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # https://i3wm.org/docs/i3bar-protocol.html
-# https://www.nerdfonts.com/cheat-sheet
 
 trap 'kill $(jobs -p)' EXIT
 trap 'volume_loop; battery_loop;' USR1
@@ -36,7 +35,7 @@ function memory_get() {
     if [ ${#n} == 1 ]; then
         n=0$n
     fi
-    echo " $n%  "
+    echo " $n%   "
     free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
 }
 
@@ -164,10 +163,10 @@ function lang_loop() {
     lang_get > lang
 }
 function lang_get() {
-    if [ "$(ibus engine)" != "xkb:pl::pol" ]; then
-        echo "JP"
+    if [ "$(ibus engine)" != "anthy" ]; then
+        echo "pl"
     else
-        echo "PL"
+        echo "jp"
     fi
 }
 function lang_switch() {
@@ -212,7 +211,7 @@ EOT
             "name": "$1",
             "full_text": "$(cat $1)",
             "separator": false,
-            "separator_block_width": 13
+            "separator_block_width": 9
         }
 EOT
     fi
@@ -221,8 +220,8 @@ EOT
 function print_all() {
     {
         echo '[{"full_text":""}'
-        print_one window true
-        print_one volume true
+        # print_one window true
+        print_one volume false
         print_one mic true
         print_one music true
         print_one memory true
@@ -240,7 +239,7 @@ memory_loop
 mic_loop
 network_loop
 volume_loop
-window_loop
+# window_loop
 battery_loop
 
 # wait for data
@@ -285,7 +284,7 @@ while read line; do
             wpctl set-volume @DEFAULT_SINK@ 0.05-
             volume_loop
             ;;
-        memory,$rmb)
+        memory,$lmb)
             kitty btop &
             ;;
         mic,$lmb)
@@ -300,7 +299,7 @@ while read line; do
             wpctl set-volume @DEFAULT_SOURCE@ 0.05-
             mic_loop
             ;;
-        network,$rmb)
+        network,$lmb)
             nm-connection-editor &
             ;;
         music,$lmb)

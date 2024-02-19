@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# touch /home/ptixed/a
 nitrogen --restore

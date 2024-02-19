@@ -1,6 +1,6 @@
 *
 
-!.bash_profile
+!.profile
 !.gitconfig
 !.gitignore
 !.vimrc
@@ -57,5 +57,3 @@
 !Documents
 !Documents/linux-fixes/
 !Documents/linux-fixes/**
-!Documents/pihole/
-!Documents/pihole/docker-compose.yaml
