@@ -110,7 +110,7 @@ bar {
     tray_output none
 
     colors {
-        background #000000aa
+        background #000000cc
         statusline #ffffffaa
         separator  #ffffffaa
 

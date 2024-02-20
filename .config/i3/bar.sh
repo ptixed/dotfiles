@@ -35,7 +35,7 @@ function memory_get() {
     if [ ${#n} == 1 ]; then
         n=0$n
     fi
-    echo " $n%   "
+    echo " $n%  "
     free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
 }
 
@@ -94,19 +94,19 @@ function battery_loop() {
 function battery_get() {
     case $(cat /sys/class/power_supply/BAT0/capacity) in
         100|9?|8?)
-            echo "  "
+            echo " "
             ;;
         6?|7?)
-            echo "  "
+            echo " "
             ;;
         4?|5?)
-            echo "  "
+            echo " "
             ;;
         2?|3?)
-            echo "  "
+            echo " "
             ;;
         *) 
-            echo "  "
+            echo " "
             ;;
     esac
 }
@@ -211,7 +211,7 @@ EOT
             "name": "$1",
             "full_text": "$(cat $1)",
             "separator": false,
-            "separator_block_width": 9
+            "separator_block_width": 11
         }
 EOT
     fi
@@ -226,9 +226,9 @@ function print_all() {
         print_one music true
         print_one memory true
         print_one date true
-        print_one lang false
-        print_one network false
+        print_one lang true
         print_one battery false
+        print_one network false
         echo '],'
      } | tr -d '\n' 
 }
