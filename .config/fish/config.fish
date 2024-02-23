@@ -12,11 +12,13 @@ if status is-interactive
     abbr --add gdc git diff --cached
     abbr --add gp git pull
     abbr --add gs git status
+    abbr --add apti sudo apt install --no-install-recommends
 
     abbr --add grep grep --color
     abbr --add icat kitty +kitten icat
     abbr --add ssh kitty +kitten ssh
     abbr --add broadcast kitty +kitten broadcast --match-tab state:focused
+
 
     function last_history_item
         echo $history[1]

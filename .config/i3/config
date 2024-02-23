@@ -74,7 +74,7 @@ gaps inner 10px
 bindsym $mod+r restart
 bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
 
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-rapid 5 3
 exec --no-startup-id picom -b
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -115,9 +115,9 @@ bar {
         separator  #ffffffaa
 
         #                  border    background text
-        focused_workspace  #000000aa #000000aa #ed9f34ff
-        active_workspace   #000000aa #000000aa #ffffffff
-        inactive_workspace #000000aa #000000aa #ffffff88
-        urgent_workspace   #000000aa #000000aa #d9581cff
+        focused_workspace  #000000cc #000000cc #ed9f34ff
+        active_workspace   #000000cc #000000cc #ffffffff
+        inactive_workspace #000000cc #000000cc #888888ff
+        urgent_workspace   #000000cc #000000cc #d9581cff
     }
 }

@@ -54,6 +54,6 @@
 .vim/.netrwhist
 .vim/viminfo
 
-!Documents
-!Documents/linux-fixes/
-!Documents/linux-fixes/**
+!scripts
+!scripts/linux-fixes/
+!scripts/linux-fixes/**

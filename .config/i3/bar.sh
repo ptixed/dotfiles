@@ -2,9 +2,8 @@
 
 # https://i3wm.org/docs/i3bar-protocol.html
 
-trap 'kill $(jobs -p)' EXIT
-trap 'volume_loop; battery_loop;' USR1
-trap 'lang_switch' USR2
+trap volume_refresh USR1
+trap lang_switch USR2
 
 mkdir -p /tmp/i3-bar
 cd /tmp/i3-bar
@@ -39,7 +38,7 @@ function memory_get() {
     free | grep Mem | perl -ne 'my @a = split " "; printf("%02.0f%%", 100*$a[2]/$a[1])'
 }
 
-function volume_loop() {
+function volume_refresh() {
     volume_get > volume
 }
 function volume_get() {
@@ -52,7 +51,7 @@ function volume_get() {
     echo "$state" | sed -E -e 's/.*([0-9])\.([0-9][0-9]).*/\1\2%/' -e 's/^0//g'
 }
 
-function mic_loop() {
+function mic_refresh() {
     mic_get > mic
 }
 function mic_get() {
@@ -76,9 +75,9 @@ function network_loop() {
 }
 function network_get() {
     if nc -zw1 1.1.1.1 53; then
-        echo "󰖩 "
+        echo "󰖩"
     else
-        echo "󰖪 "
+        echo "󰖪"
     fi    
 }
 
@@ -92,23 +91,10 @@ function battery_loop() {
     battery_pid=$!
 }
 function battery_get() {
-    case $(cat /sys/class/power_supply/BAT0/capacity) in
-        100|9?|8?)
-            echo " "
-            ;;
-        6?|7?)
-            echo " "
-            ;;
-        4?|5?)
-            echo " "
-            ;;
-        2?|3?)
-            echo " "
-            ;;
-        *) 
-            echo " "
-            ;;
-    esac
+    x=$(cat /sys/class/power_supply/BAT0/capacity)
+    if [ "$x" != "100" ]; then
+        echo "$x%"
+    fi
 }
 
 window_pid=
@@ -135,31 +121,37 @@ function window_loop() {
     window_pid=$!
 }
 
-music_pid=
-function music_toggle() {
-    if [ "$music_pid" == "" ]; then
-        (
-            curl https://ice5.somafm.com/defcon-128-mp3 | ffplay -nodisp - &
-            pid=$!
-            trap "kill $pid" EXIT
-            while true; do 
-                meta=$(curl https://somafm.com/songs/defcon.xml)
-                title=$(echo "$meta" | grep -Po 'title.*CDATA\[\K[^\]]+' | head -1)
-                artist=$(echo "$meta" | grep -Po 'artist.*CDATA\[\K[^\]]+' | head -1)
-                echo "$artist: $title" > music
-                sleep 5
-            done
-        ) &
-        music_pid=$!
+radio_stations=("https://ice5.somafm.com/defcon-128-mp3" "https://stream13.polskieradio.pl/pr3/pr3.sdp/chunklist_w1757229385.m3u8")
+radio_stations_names=("SOMA" "Trojka")
+radio_stations_i=0
+radio_stations_n=2
+radio_pid=
+function radio_toggle() {
+    if [ "$radio_pid" != "" ]; then
+        kill $radio_pid
+        radio_pid=
     else
-        kill $music_pid
-        echo "󰐹" > music
-        music_pid=
+        station=${radio_stations[$radio_stations_i]}
+        mpv "$station" > >(grep  --line-buffered -Po 'icy-title: \K.*' \
+            | while read title; do 
+                echo "$title" > radio
+            done 
+        ) &
+        radio_pid=$!
     fi
 }
-echo "󰐹" > music
+function radio_refresh() {
+    station_name=${radio_stations_names[$radio_stations_i]}
+    if [ "$radio_pid" != "" ]; then
+        radio_toggle
+        echo "$station_name" > radio
+        radio_toggle
+    else
+        echo "$station_name" > radio
+    fi
+}
 
-function lang_loop() {
+function lang_refresh() {
     lang_get > lang
 }
 function lang_get() {
@@ -175,7 +167,6 @@ function lang_switch() {
     else
         ibus engine xkb:pl::pol
     fi
-    lang_loop
 }
 
 date_tzs=("Europe/Warsaw" "America/New_York" "America/Chicago" "UTC")
@@ -221,26 +212,29 @@ function print_all() {
     {
         echo '[{"full_text":""}'
         # print_one window true
+        print_one radio true
         print_one volume false
         print_one mic true
-        print_one music true
         print_one memory true
         print_one date true
-        print_one lang true
-        print_one battery false
+        print_one lang false
         print_one network false
+        print_one battery false
         echo '],'
      } | tr -d '\n' 
 }
 
-date_loop
-lang_loop
-memory_loop
-mic_loop
-network_loop
-volume_loop
 # window_loop
+date_loop
+memory_loop
+network_loop
 battery_loop
+
+lang_refresh
+volume_refresh
+mic_refresh
+
+radio_refresh
 
 # wait for data
 sleep 1
@@ -274,39 +268,48 @@ while read line; do
             ;;
         volume,$lmb)
             wpctl set-mute @DEFAULT_SINK@ toggle
-            volume_loop
+            volume_refresh
             ;;
         volume,$scroll_up)
             wpctl set-volume @DEFAULT_SINK@ 0.05+
-            volume_loop
+            volume_refresh
             ;;
         volume,$scroll_down)
             wpctl set-volume @DEFAULT_SINK@ 0.05-
-            volume_loop
+            volume_refresh
             ;;
         memory,$lmb)
             kitty btop &
             ;;
         mic,$lmb)
             wpctl set-mute @DEFAULT_SOURCE@ toggle
-            mic_loop
+            mic_refresh
             ;;
         mic,$scroll_up)
             wpctl set-volume @DEFAULT_SOURCE@ 0.05+
-            mic_loop
+            mic_refresh
             ;;
         mic,$scroll_down)
             wpctl set-volume @DEFAULT_SOURCE@ 0.05-
-            mic_loop
+            mic_refresh
             ;;
         network,$lmb)
             nm-connection-editor &
             ;;
-        music,$lmb)
-            music_toggle
+        radio,$lmb)
+            radio_toggle
+            ;;
+        radio,$scroll_up)
+            radio_stations_i=$(( ($radio_stations_i+1)%$radio_stations_n ))
+            radio_refresh
+            ;;
+        radio,$scroll_down)
+            radio_stations_i=$(( ($radio_stations_i-1+$radio_stations_n)%$radio_stations_n ))
+            radio_refresh
             ;;
         lang,$lmb)
             lang_switch
+            lang_refresh
             ;;
     esac
 done
