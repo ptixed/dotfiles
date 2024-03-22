@@ -1,0 +1,6 @@
+[submodule ".config/ranger/plugins/ranger-archives"]
+	path = .config/ranger/plugins/ranger-archives
+	url = https://github.com/maximtrp/ranger-archives.git
+[submodule ".config/ranger/plugins/ranger_udisk_menu"]
+	path = .config/ranger/plugins/ranger_udisk_menu
+	url = https://github.com/SL-RU/ranger_udisk_menu

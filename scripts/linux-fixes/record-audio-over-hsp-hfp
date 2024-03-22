@@ -1,0 +1,4 @@
+wpctl status
+wpctl set-profile <DEVICE-ID> 3
+pw-record <FILENAME>.wav
+wpctl set-profile <DEVICE-ID> 2

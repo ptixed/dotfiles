@@ -15,10 +15,10 @@ bindsym $mod+s focus down
 bindsym $mod+a focus left
 bindsym $mod+d focus right
 
-bindsym $mod+Shift+w move up
-bindsym $mod+Shift+s move down
-bindsym $mod+Shift+a move left
-bindsym $mod+Shift+d move right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
 
 bindsym $mod+braceleft move workspace to output left
 bindsym $mod+braceright move workspace to output right
@@ -48,16 +48,33 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 
-bindsym $mod+$alt+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+$alt+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+$alt+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+$alt+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+$alt+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+$alt+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+$alt+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+$alt+8 move container to workspace $ws8; workspace $ws8
-bindsym $mod+$alt+9 move container to workspace $ws9; workspace $ws9
+set $mode_mover moving...
+bindsym $mod+m mode "$mode_mover"
+mode "$mode_mover" {
+    bindsym $mod+1 move container to workspace $ws1; mode "default"
+    bindsym $mod+2 move container to workspace $ws2; mode "default"
+    bindsym $mod+3 move container to workspace $ws3; mode "default"
+    bindsym $mod+4 move container to workspace $ws4; mode "default"
+    bindsym $mod+5 move container to workspace $ws5; mode "default"
+    bindsym $mod+6 move container to workspace $ws6; mode "default"
+    bindsym $mod+7 move container to workspace $ws7; mode "default"
+    bindsym $mod+8 move container to workspace $ws8; mode "default"
+    bindsym $mod+9 move container to workspace $ws9; mode "default"
 
+    bindsym w move up
+    bindsym s move down
+    bindsym a move left
+    bindsym d move right
+    bindsym Up move up
+    bindsym Down move down
+    bindsym Left move left
+    bindsym Right move right
+
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+
+bindsym $mod+Tab workspace back_and_forth
 bindsym $alt+Tab workspace back_and_forth
 workspace_auto_back_and_forth yes
 
@@ -83,8 +100,8 @@ exec_always --no-startup-id autorandr --change
 bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05+ && kill -USR1 $(cat /tmp/i3-bar/pid)
 bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05- && kill -USR1 $(cat /tmp/i3-bar/pid)
 
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 20%-
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 20%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 10%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 10%+
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
@@ -97,6 +114,7 @@ bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 bindsym $mod+BackSpace exec --no-startup-id kill -USR2 $(cat /tmp/i3-bar/pid)
 
 for_window [title="Remmina"] floating enable
+for_window [title="Thunar"] floating enable
 
 bar {
     i3bar_command i3bar --transparency
@@ -119,5 +137,6 @@ bar {
         active_workspace   #000000cc #000000cc #ffffffff
         inactive_workspace #000000cc #000000cc #888888ff
         urgent_workspace   #000000cc #000000cc #d9581cff
+        binding_mode       #00000ccc #000000cc #d9581cff
     }
 }

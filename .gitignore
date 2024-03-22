@@ -3,6 +3,7 @@
 !.profile
 !.gitconfig
 !.gitignore
+!.gitmodules
 !.vimrc
 
 !.config/
@@ -13,9 +14,8 @@
 !.config/autorandr/
 !.config/autorandr/postswitch
 
-!.config/btop/
-!.config/btop/**
-.config/btop/btop.log
+!.config/htop/
+!.config/htop/**
 
 !.config/fish/
 !.config/fish/**
@@ -42,6 +42,7 @@
 
 !.config/ranger/
 !.config/ranger/**
+.config/ranger/plugins/__pycache__/**
 
 !.local/
 !.local/share/

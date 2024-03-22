@@ -19,22 +19,29 @@ if status is-interactive
     abbr --add ssh kitty +kitten ssh
     abbr --add broadcast kitty +kitten broadcast --match-tab state:focused
 
-
     function last_history_item
         echo $history[1]
     end
     abbr -a !! --position anywhere --function last_history_item
 end
 
-set --global pure_show_prefix_root_prompt true
 set --global pure_show_jobs true
 set --global pure_enable_virtualenv false
 set --global pure_symbol_git_dirty ""
 set --global pure_symbol_git_stash ""
-set --global pure_symbol_prompt (cat /proc/(ps -o ppid= -p $fish_pid | grep -Po '[0-9]+')/comm | sed s/^kitty\$/❯/)
+set --global pure_symbol_prompt "$(cat /proc/(ps -o ppid= -p $fish_pid | grep -Po '[0-9]+')/comm | sed -e 's/^kitty$//' -e 's/.$/\0 /')❯"
 
 source /usr/local/bin/python-venv/bin/activate.fish
 
 # fish_key_reader
 bind \b backward-kill-word 
 bind \e\[3\;5~ kill-word
+
+if test "$PWD" = "$HOME"
+    echo
+    echo "❤️ Hi there!"
+    echo
+    echo "Here are some ideas in case you were looking for something to do:"
+    cat ~/todo.txt
+    echo
+end

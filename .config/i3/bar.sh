@@ -126,17 +126,21 @@ radio_stations_names=("SOMA" "Trojka")
 radio_stations_i=0
 radio_stations_n=2
 radio_pid=
+function radio_loop() {
+    playerctl metadata --follow -f '{{artist}}: {{title}}' \
+        | sed --unbuffered 's/^: //' \
+        | grep --line-buffered -Pv '^$' \
+        | while read line; do
+            echo "$line" > radio
+        done &
+}
 function radio_toggle() {
     if [ "$radio_pid" != "" ]; then
         kill $radio_pid
         radio_pid=
     else
         station=${radio_stations[$radio_stations_i]}
-        mpv "$station" > >(grep  --line-buffered -Po 'icy-title: \K.*' \
-            | while read title; do 
-                echo "$title" > radio
-            done 
-        ) &
+        mpv "$station" >/dev/null &
         radio_pid=$!
     fi
 }
@@ -167,6 +171,7 @@ function lang_switch() {
     else
         ibus engine xkb:pl::pol
     fi
+    lang_refresh
 }
 
 date_tzs=("Europe/Warsaw" "America/New_York" "America/Chicago" "UTC")
@@ -229,11 +234,11 @@ date_loop
 memory_loop
 network_loop
 battery_loop
+radio_loop
 
 lang_refresh
 volume_refresh
 mic_refresh
-
 radio_refresh
 
 # wait for data
@@ -307,9 +312,11 @@ while read line; do
             radio_stations_i=$(( ($radio_stations_i-1+$radio_stations_n)%$radio_stations_n ))
             radio_refresh
             ;;
+        radio,$rmb)
+            xdg-open "https://google.com/search?q=$(cat radio | jq -rR @uri)" >/dev/null
+            ;;
         lang,$lmb)
             lang_switch
-            lang_refresh
             ;;
     esac
 done

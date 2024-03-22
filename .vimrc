@@ -1,7 +1,4 @@
-
-" ------------------
-" Pawel Krogulec
-" ------------------
+" vim is terrible but there is no better alternative
 
 " let g:GPGDebugLevel = 2
 " let g:GPGDebugLog = expand('~/gnupg.log')
@@ -40,7 +37,7 @@ hi CursorLineNr cterm=none ctermbg=0
 
 " ------------------
 
-nnoremap <cr> o<esc>
+nnoremap <cr> o
 
 " faster buffer switch
 nnoremap bn :bn<cr>
