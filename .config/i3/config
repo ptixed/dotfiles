@@ -113,7 +113,6 @@ bindsym $mod+t exec --no-startup-id GLFW_IM_MODULE=ibus kitty fish
 bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 bindsym $mod+BackSpace exec --no-startup-id kill -USR2 $(cat /tmp/i3-bar/pid)
 
-for_window [title="Remmina"] floating enable
 for_window [title="Thunar"] floating enable
 
 bar {

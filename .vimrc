@@ -29,8 +29,13 @@ set iskeyword+=-
 set cursorline
 set mouse=a
 set shell=/usr/bin/fish
+set titlestring=%t
+set belloff=all
 
-command Bd bn|bd! #
+command Bd bn|bd
+command -nargs=1 -complete=file E 
+            \ | execute ':silent !kitty @ launch --cwd=current --type=tab -- vim -- ' . <q-args>
+            \ | execute ':redraw!'
 
 hi CursorLine cterm=none ctermbg=0
 hi CursorLineNr cterm=none ctermbg=0
@@ -38,6 +43,7 @@ hi CursorLineNr cterm=none ctermbg=0
 " ------------------
 
 nnoremap <cr> o
+nnoremap <space> a
 
 " faster buffer switch
 nnoremap bn :bn<cr>
@@ -48,9 +54,6 @@ nnoremap <bs> i<bs>
 " section navigation
 nnoremap ]] ]}
 nnoremap [[ [{
-
-" F3 find next
-nnoremap <F3> n
 
 " Ctrl-S save
 nnoremap <c-s> :wa<cr>
@@ -67,22 +70,18 @@ inoremap <c-d> <esc>:sh<cr>
 nnoremap <c-d> :sh<cr>
 
 " Ctrl-Z undo, Ctrl-R redo
-inoremap <c-z> <esc>ui
+inoremap <c-z> <esc>ua
 nnoremap <c-z> u
 
-" Ctrl-N new tab
-nnoremap <c-n> :tabe<cr>
-inoremap <c-n> <esc>:tabe<cr>i
+inoremap <c-a> <esc>ggVG
+nnoremap <c-a> ggVG
 
-" Ctrl-Q previous tab, Ctrl-E next tab
-nnoremap <c-e> :tabn<cr>
-inoremap <c-e> <esc>:tabn<cr>i
-nnoremap <c-q> :tabp<cr>
-inoremap <c-q> <esc>:tabp<cr>i
+inoremap <c-c> <esc>yya
+nnoremap <c-c> yy
+vnoremap <c-c> y
 
-inoremap <c-w>w <esc><c-w>Wi
-nnoremap <c-w>w <c-w>W
-inoremap <c-w><c-w> <esc><c-w><c-w>i
+inoremap <c-v> <esc>pa
+nnoremap <c-v> p
 
 " ------------------
 " changes colors based on mode

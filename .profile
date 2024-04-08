@@ -17,9 +17,6 @@ if [ -f $HOME/.bash_profile ]; then
 fi
 
 if [[ "$DISPLAY" == "" ]] && [[ "$XDG_VTNR" == "1" ]]; then
- startx
- touchpad=$(xinput list | grep -Po 'Touchpad.*id=\K[0-9]+')
- prop=$(xinput list-props $touchpad | grep -Po 'Tapping Button Mapping Enabled \(\K[0-9]+')
- xinput set-prop $touchpad $prop 1 0
+    startx
 fi
 

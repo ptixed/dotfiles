@@ -1,11 +1,36 @@
-# a called to `_pure_prompt_new_line` is triggered by an event
 function fish_prompt
-    set --local exit_code $status # save previous exit code
+    set --local exit_code $status
+    echo
 
-    _pure_print_prompt_rows # manage default vs. compact prompt
-    _pure_place_iterm2_prompt_mark # place iTerm shell integration mark
-    echo -e -n (_pure_prompt $exit_code) # print prompt
-    echo -e (_pure_prompt_ending) # reset colors and end prompt
+    set_color blue
+    fish_prompt_pwd_dir_length=0 prompt_pwd | tr -d "\n"
 
-    set _pure_fresh_session false
+    set_color brblack
+    fish_git_prompt
+    echo
+
+    set --local jobs (jobs -c | tail +1)
+    if test "$jobs"
+        echo -n "$(string join " " $jobs)... "
+    end
+
+    set --local symbol "❯"
+    if fish_is_root_user
+        set --local symbol "#"
+    end
+
+    if test "$exit_code" != 0
+        set_color red
+    else
+        set_color magenta
+    end
+
+    set --local parent_process (cat /proc/(ps -o ppid= -p $fish_pid | grep -Po '[0-9]+')/comm)
+    if test "$parent_process" = kitty
+        echo -n "$symbol "
+    else
+        echo -n "$parent_process $symbol "
+    end
+
+    set_color normal
 end

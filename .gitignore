@@ -5,6 +5,7 @@
 !.gitignore
 !.gitmodules
 !.vimrc
+!.xinitrc
 
 !.config/
 
@@ -54,6 +55,9 @@
 !.vim/**
 .vim/.netrwhist
 .vim/viminfo
+
+!build-env/
+!build-env/build-env
 
 !scripts
 !scripts/linux-fixes/

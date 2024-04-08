@@ -159,6 +159,7 @@ function lang_refresh() {
     lang_get > lang
 }
 function lang_get() {
+    return 0
     if [ "$(ibus engine)" != "anthy" ]; then
         echo "pl"
     else
@@ -172,6 +173,13 @@ function lang_switch() {
         ibus engine xkb:pl::pol
     fi
     lang_refresh
+}
+
+function yt_loop() {
+    while true; do
+        url=$(echo -e 'HTTP/1.1 204 No Content\nConnection: close\n' | nc -lp 10017 | tail -1)
+        mpv -- "$url" >/dev/null &
+    done &
 }
 
 date_tzs=("Europe/Warsaw" "America/New_York" "America/Chicago" "UTC")
@@ -198,14 +206,14 @@ function print_one() {
         cat <<EOT 
         ,{
             "name": "$1",
-            "full_text": "$(cat $1)"
+            "full_text": $( ( cat $1 | tr -d '\n'; echo; ) | jq -R)
         }
 EOT
     else
         cat <<EOT 
         ,{
             "name": "$1",
-            "full_text": "$(cat $1)",
+            "full_text": $( ( cat $1 | tr -d '\n'; echo; ) | jq -R),
             "separator": false,
             "separator_block_width": 11
         }
@@ -235,6 +243,7 @@ memory_loop
 network_loop
 battery_loop
 radio_loop
+yt_loop
 
 lang_refresh
 volume_refresh
@@ -284,7 +293,7 @@ while read line; do
             volume_refresh
             ;;
         memory,$lmb)
-            kitty btop &
+            kitty htop &
             ;;
         mic,$lmb)
             wpctl set-mute @DEFAULT_SOURCE@ toggle
@@ -299,7 +308,7 @@ while read line; do
             mic_refresh
             ;;
         network,$lmb)
-            nm-connection-editor &
+            kitty nmtui &
             ;;
         radio,$lmb)
             radio_toggle
@@ -312,7 +321,7 @@ while read line; do
             radio_stations_i=$(( ($radio_stations_i-1+$radio_stations_n)%$radio_stations_n ))
             radio_refresh
             ;;
-        radio,$rmb)
+        radio,$mmb)
             xdg-open "https://google.com/search?q=$(cat radio | jq -rR @uri)" >/dev/null
             ;;
         lang,$lmb)

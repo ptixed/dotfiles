@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# https://wiki.debian.org/chroot
+
+if [ $(whoami) != root ]; then
+    sudo "$0"
+    exit
+fi
+
+cd "$(dirname "$0")"
+
+if ! mountpoint -q proc; then
+    mount -t proc /proc proc/
+    mount -t sysfs /sys sys/
+fi
+
+echo
+echo "Entering chroot"
+echo
+chroot --userspec=ptixed . /usr/bin/env -i HOME=/home/ptixed TERM=$TERM fish --init-command=cd
+
