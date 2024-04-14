@@ -30,5 +30,5 @@ bind \b backward-kill-word
 bind \e\[3\;5~ kill-word
 bind \cO 'ranger; commandline -f repaint'
 
-zoxide init fish | source
+zoxide init --cmd cd fish | source
 

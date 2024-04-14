@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # https://wiki.debian.org/chroot
+# https://packages.debian.org/bookworm/debootstrap
 
 if [ $(whoami) != root ]; then
     sudo "$0"

@@ -11,10 +11,7 @@ export LESS='-JiwRXSj.5'
 # disable .lesshst file
 export LESSHISTFILE=-
 export QT_QPA_PLATFORMTHEME=gtk3
-
-if [ -f $HOME/.bash_profile ]; then
-    . $HOME/.bash_profile
-fi
+export GLFW_IM_MODULE=ibus 
 
 if [[ "$DISPLAY" == "" ]] && [[ "$XDG_VTNR" == "1" ]]; then
     startx

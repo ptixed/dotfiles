@@ -4,6 +4,7 @@
 
 trap volume_refresh USR1
 trap lang_switch USR2
+trap window_last HUP
 
 mkdir -p /tmp/i3-bar
 cd /tmp/i3-bar
@@ -100,25 +101,34 @@ function battery_get() {
 window_pid=
 function window_loop() {
     kill $window_pid
-    xdotool getwindowfocus getwindowname | jq -R | sed -E 's/^"(.*)"$/\1/' > window
+    xdotool getwindowfocus getwindowname | jq -R | sed -E 's/^"(.*)"$/\1/' > window_name
     while true; do
         { 
             echo -n i3-ipc
             echo -n 0a00000002000000 | xxd -p -r 
             echo -n '["window"]'
         } | nc -U $(i3 --get-socketpath) | {
+            last_window_id=
             while true; do
                 header=$(head -c14 | xxd -p)
                 len=$(echo "$header" | sed -E 's/.{12}(..)(..)(..)(..).*/ibase=16; \U\4\3\2\1/' | bc)
                 body=$(head -c $len)
-                window=$(echo "$body" | jq .container.name)
+                window=$(echo "$body" | jq .container)
                 if [ "$window" != "null" ]; then
-                    echo "$window" | sed -E 's/^"(.*)"$/\1/' > window
+                    echo "$window" | jq -r .name > window_name
+                    window_id=$(echo "$window" | jq -r .id)
+                    if [ "$last_window_id" != "$window_id" ]; then
+                        echo $last_window_id > last_window_id
+                        last_window_id=$window_id
+                    fi
                 fi
             done
         } 
     done &
     window_pid=$!
+}
+function window_last() {
+    i3-msg --quiet "[con_id=$(cat last_window_id)] focus"
 }
 
 radio_stations=("https://ice5.somafm.com/defcon-128-mp3" "https://stream13.polskieradio.pl/pr3/pr3.sdp/chunklist_w1757229385.m3u8")
@@ -127,11 +137,16 @@ radio_stations_i=0
 radio_stations_n=2
 radio_pid=
 function radio_loop() {
-    playerctl metadata --follow -f '{{artist}}: {{title}}' \
-        | sed --unbuffered 's/^: //' \
-        | grep --line-buffered -Pv '^$' \
+    playerctl metadata --follow -f '{{status}} {{artist}}: {{title}}' \
         | while read line; do
-            echo "$line" > radio
+            station=${radio_stations_names[$radio_stations_i]}
+            if [ "$line" == " : " ] || [ "$line" == "" ]; then
+                echo "$station" > radio
+            elif echo "$line" | grep -P '^Stopped ' >/dev/null; then
+                echo "$station" > radio
+            else
+                echo "$line" | grep -Po '^[^ ]+ \K.*' > radio
+            fi
         done &
 }
 function radio_toggle() {
@@ -159,7 +174,6 @@ function lang_refresh() {
     lang_get > lang
 }
 function lang_get() {
-    return 0
     if [ "$(ibus engine)" != "anthy" ]; then
         echo "pl"
     else
@@ -167,7 +181,7 @@ function lang_get() {
     fi
 }
 function lang_switch() {
-    if [ "$(ibus engine)" == "xkb:pl::pol" ]; then
+    if [ "$(ibus engine)" != "anthy" ]; then
         ibus engine anthy
     else
         ibus engine xkb:pl::pol
@@ -224,20 +238,20 @@ EOT
 function print_all() {
     {
         echo '[{"full_text":""}'
-        # print_one window true
+        # print_one window_name true
         print_one radio true
         print_one volume false
         print_one mic true
         print_one memory true
         print_one date true
-        print_one lang false
+        # print_one lang false
         print_one network false
         print_one battery false
         echo '],'
      } | tr -d '\n' 
 }
 
-# window_loop
+window_loop
 date_loop
 memory_loop
 network_loop

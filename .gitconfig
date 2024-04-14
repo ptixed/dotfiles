@@ -2,7 +2,7 @@
     name = ptixed
     email = ptixed@users.noreply.github.com
 [core]
-    editor = vim
+    autocrlf = input
 [credential]
     helper = store
 [pull]
@@ -16,3 +16,7 @@
     process = git-lfs filter-process
 [diff]
     external = difft
+[advice]
+    statusHints = false
+[alias]
+    force = push --force-wit-lease --force-if-includes
