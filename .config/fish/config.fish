@@ -21,14 +21,14 @@ if status is-interactive
         echo $history[1]
     end
     abbr --add !! --position anywhere --function last_history_item
+
+    # fish_key_reader
+    bind \b backward-kill-word 
+    bind \e\[3\;5~ kill-word
+    bind \cO 'ranger; commandline -f repaint'
 end
 
 fish_add_path /usr/local/bin/python-venv/bin/
-
-# fish_key_reader
-bind \b backward-kill-word 
-bind \e\[3\;5~ kill-word
-bind \cO 'ranger; commandline -f repaint'
 
 zoxide init --cmd cd fish | source
 

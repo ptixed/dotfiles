@@ -15,6 +15,9 @@
 !.config/autorandr/
 !.config/autorandr/postswitch
 
+!.config/dunst/
+!.config/dunst/**
+
 !.config/htop/
 !.config/htop/**
 
@@ -57,7 +60,7 @@
 .vim/viminfo
 
 !build-env/
-!build-env/build-env
+!build-env/chroot
 
 !scripts
 !scripts/linux-fixes/

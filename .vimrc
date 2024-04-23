@@ -42,6 +42,9 @@ hi CursorLineNr cterm=none ctermbg=0
 
 " ------------------
 
+" jump to end of paste
+nnoremap p gP
+
 nnoremap <cr> o
 nnoremap <space> a
 
@@ -69,12 +72,15 @@ vnoremap <del> "_x
 inoremap <c-d> <esc>:sh<cr>
 nnoremap <c-d> :sh<cr>
 
-" Ctrl-Z undo, Ctrl-R redo
+" Ctrl-Z undo
 inoremap <c-z> <esc>ua
 nnoremap <c-z> u
 
+" Ctrl-Y redo
+inoremap <c-y> <esc><c-r>a
+nnoremap <c-y> <c-r>
+
 inoremap <c-a> <esc>ggVG
-nnoremap <c-a> ggVG
 
 inoremap <c-c> <esc>yya
 nnoremap <c-c> yy
@@ -82,6 +88,12 @@ vnoremap <c-c> y
 
 inoremap <c-v> <esc>pa
 nnoremap <c-v> p
+
+inoremap <c-f> <esc>/
+nnoremap <c-f> /
+
+inoremap <c-r> <esc>:%s/<c-r><c-w>/
+nnoremap <c-r> :%s/<c-r><c-w>/
 
 " ------------------
 " changes colors based on mode
