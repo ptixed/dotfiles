@@ -1,0 +1,22 @@
+#!/usr/bin/fish
+
+set zones "Europe/Warsaw" "America/New_York" "America/Chicago" "UTC" 
+set names "" " ET" " CT" " UTC"
+set total (count $zones)
+
+set zone (cat _date)
+switch $argv[1]
+    case init 
+        set zone 1
+    case refresh
+        TZ=$zones[$zone] date "+%b %d %a %H:%M$names[$zone]"
+    case scrollup
+        set zone (math "$zone % $total + 1")
+    case scrolldown
+        set zone (math "($zone - 2 + $total) % $total + 1")
+end
+echo $zone > _date
+
+exit (math "60 - $(date +%S)")
+
+# TODO: zone could be read from and written to stdout

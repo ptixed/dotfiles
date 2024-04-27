@@ -43,7 +43,10 @@ hi CursorLineNr cterm=none ctermbg=0
 " ------------------
 
 " jump to end of paste
-nnoremap p gP
+nnoremap p gp
+
+" mark pasted
+nnoremap gp `[v`]
 
 nnoremap <cr> o
 nnoremap <space> a
@@ -94,6 +97,7 @@ nnoremap <c-f> /
 
 inoremap <c-r> <esc>:%s/<c-r><c-w>/
 nnoremap <c-r> :%s/<c-r><c-w>/
+vnoremap <c-r> :s/
 
 " ------------------
 " changes colors based on mode

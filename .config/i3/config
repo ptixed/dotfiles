@@ -67,8 +67,8 @@ bindsym $mod+$alt+Left move left
 bindsym $mod+$alt+Right move right
 
 # bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+Tab exec --no-startup-id ilia -p windows
-bindsym $alt+Tab exec --no-startup-id kill -HUP $(cat /tmp/i3-bar/pid)
+bindsym $mod+Tab exec ilia -p windows
+bindsym $alt+Tab exec kill -HUP $(cat /tmp/i3-bar/pid)
 
 workspace_auto_back_and_forth yes
 
@@ -83,35 +83,36 @@ gaps inner 10px
 # gaps top -10px
 
 bindsym $mod+r restart
-bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
+bindsym $mod+l exec i3lock-fancy-rapid 5 3
 
-exec --no-startup-id ~/.config/i3/autostart.sh
-exec_always --no-startup-id autorandr --change && nitrogen --restore
+exec ~/.config/i3/autostart.fish
+exec_always autorandr --change 
+exec_always nitrogen --restore
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05+ && kill -USR1 $(cat /tmp/i3-bar/pid)
-bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ 0.05- && kill -USR1 $(cat /tmp/i3-bar/pid)
-
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -q set 10%-
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -q set 10%+
-
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioRaiseVolume exec fish ~/.config/i3/input.fish key XF86AudioRaiseVolume 
+bindsym XF86AudioLowerVolume exec fish ~/.config/i3/input.fish key XF86AudioLowerVolume 
+bindsym XF86MonBrightnessDown exec fish ~/.config/i3/input.fish key XF86MonBrightnessDown 
+bindsym XF86MonBrightnessUp exec fish ~/.config/i3/input.fish key XF86MonBrightnessUp 
+bindsym XF86AudioPlay exec fish ~/.config/i3/input.fish key XF86AudioPlay 
+bindsym XF86AudioNext exec fish ~/.config/i3/input.fish key XF86AudioNext 
+bindsym XF86AudioPrev exec fish ~/.config/i3/input.fish key XF86AudioPrev 
+bindsym XF86AudioMute exec fish ~/.config/i3/input.fish key XF86AudioMute 
 
 bindsym Print exec flameshot gui
-bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
-bindsym $mod+t exec --no-startup-id kitty fish
-bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
-bindsym $mod+BackSpace exec --no-startup-id kill -USR2 $(cat /tmp/i3-bar/pid)
+bindsym $mod+b exec google-chrome --password-store=gnome-libsecret 
+bindsym $mod+t exec kitty fish
+bindsym $mod+space exec ilia -t ~/.config/i3/ilia.css -p apps
+bindsym $mod+BackSpace exec kill -USR2 $(cat /tmp/i3-bar/pid)
 
-for_window [title="Thunar"] floating enable
+for_window [class="xfreerdp"] floating disable
 
 bar {
     i3bar_command i3bar --transparency
     position top
     mode dock
     separator_symbol " · "
-    status_command ~/.config/i3/bar.sh
+    # status_command ~/.config/i3/bar.sh
+    status_command fish -c ~/.config/i3/bar.fish
     strip_workspace_numbers yes
     workspace_min_width 36
     padding 6px 6px 0px 6px

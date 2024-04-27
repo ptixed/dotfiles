@@ -245,17 +245,17 @@ function print_all() {
         print_one memory true
         print_one date true
         # print_one lang false
-        print_one network false
+        # print_one network false
         print_one battery false
         echo '],'
      } | tr -d '\n' 
 }
 
-window_loop
+# window_loop
 date_loop
 memory_loop
 network_loop
-battery_loop
+# battery_loop
 radio_loop
 yt_loop
 

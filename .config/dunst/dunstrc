@@ -1,7 +1,11 @@
 [global]
-    ignore_dbusclose = false
     follow = keyboard
+    timeout = 4
+    override_dbus_timeout = 4
+    show_indicators = false
     ignore_dbusclose = false
+    corner_radius = 5
+    transparency = 25
     width = (0, 600)
     height = 300
     origin = top-center
@@ -9,12 +13,4 @@
     frame_width = 2
     font = CaskaydiaMono Nerd Font 11
     background = "#000000"
-    corner_radius = 5
-    timeout = 3
-    show_indicators = false
-    ignore_dbusclose = false
-    transparency = 25
 
-[force-timeout]
-    appname = "*"
-    timeout = 3

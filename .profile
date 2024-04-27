@@ -1,4 +1,6 @@
 
+umask 017
+
 export PATH="$HOME/bin:$PATH"
 export EDITOR=vim
 # J # status column for marking with m, and navigating with '
