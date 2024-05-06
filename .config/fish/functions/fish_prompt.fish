@@ -26,7 +26,7 @@ function fish_prompt
     end
 
     set --local parent_process (cat /proc/(ps -o ppid= -p $fish_pid | grep -Po '[0-9]+')/comm)
-    if test "$parent_process" = "kitty" || test "$parent_process" = "gnome-terminal"
+    if test "$parent_process" = "tmux: server"
         echo -n "$symbol "
     else
         echo -n "$parent_process $symbol "

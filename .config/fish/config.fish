@@ -5,22 +5,22 @@ function export
 end
 
 if status is-interactive
-    abbr --add g git
-    abbr --add ga git add -A
-    abbr --add gc git checkout
-    abbr --add gd git diff
-    abbr --add gdc git diff --cached
-    abbr --add gp git pull
-    abbr --add gs git status
-    abbr --add apti sudo apt install --no-install-recommends
-
-    abbr --add grep grep --color
-    abbr --add broadcast kitty +kitten broadcast --match-tab state:focused
+    abbr g git
+    abbr ga git add -A
+    abbr gc git checkout
+    abbr gd git diff
+    abbr gdc git diff --cached
+    abbr gp git pull
+    abbr gs git status
+    abbr apti sudo apt install --no-install-recommends
+    abbr la ls -la
+    abbr grep grep --color
+    abbr broadcast kitty +kitten broadcast --match-tab state:focused
 
     function last_history_item
         echo $history[1]
     end
-    abbr --add !! --position anywhere --function last_history_item
+    abbr !! --position anywhere --function last_history_item
 
     # fish_key_reader
     bind \b backward-kill-word 

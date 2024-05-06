@@ -8,7 +8,7 @@ function main
 
     while read event
         set parts (echo $event | string trim -c, | jq -r '.name,.button')
-        if test "$parts[1]" != ''
+        if test "$parts[1]" != '' -a "$keys[$parts[2]]" != ''
             $home/modules/$parts[1] $keys[$parts[2]]
             kill (cat pid)
         end

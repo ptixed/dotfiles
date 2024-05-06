@@ -31,8 +31,8 @@
 !.config/i3/
 !.config/i3/**
 
-!.config/kitty/
-!.config/kitty/**
+!.config/tmux/
+!.config/tmux/**
 
 !.config/mpv/
 !.config/mpv/**

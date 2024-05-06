@@ -67,8 +67,8 @@ bindsym $mod+$alt+Left move left
 bindsym $mod+$alt+Right move right
 
 # bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+Tab exec ilia -p windows
-bindsym $alt+Tab exec kill -HUP $(cat /tmp/i3-bar/pid)
+bindsym $mod+Tab exec --no-startup-id ilia -p windows
+bindsym $alt+Tab exec --no-startup-id kill -HUP $(cat /tmp/i3-bar/pid)
 
 workspace_auto_back_and_forth yes
 
@@ -83,26 +83,26 @@ gaps inner 10px
 # gaps top -10px
 
 bindsym $mod+r restart
-bindsym $mod+l exec i3lock-fancy-rapid 5 3
+bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
 
-exec ~/.config/i3/autostart.fish
-exec_always autorandr --change 
-exec_always nitrogen --restore
+exec --no-startup-id ~/.config/i3/autostart.fish
+exec_always --no-startup-id autorandr --change 
+exec_always --no-startup-id nitrogen --restore
 
-bindsym XF86AudioRaiseVolume exec fish ~/.config/i3/input.fish key XF86AudioRaiseVolume 
-bindsym XF86AudioLowerVolume exec fish ~/.config/i3/input.fish key XF86AudioLowerVolume 
-bindsym XF86MonBrightnessDown exec fish ~/.config/i3/input.fish key XF86MonBrightnessDown 
-bindsym XF86MonBrightnessUp exec fish ~/.config/i3/input.fish key XF86MonBrightnessUp 
-bindsym XF86AudioPlay exec fish ~/.config/i3/input.fish key XF86AudioPlay 
-bindsym XF86AudioNext exec fish ~/.config/i3/input.fish key XF86AudioNext 
-bindsym XF86AudioPrev exec fish ~/.config/i3/input.fish key XF86AudioPrev 
-bindsym XF86AudioMute exec fish ~/.config/i3/input.fish key XF86AudioMute 
+bindsym XF86AudioRaiseVolume exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioRaiseVolume 
+bindsym XF86AudioLowerVolume exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioLowerVolume 
+bindsym XF86MonBrightnessDown exec --no-startup-id fish ~/.config/i3/input.fish key XF86MonBrightnessDown 
+bindsym XF86MonBrightnessUp exec --no-startup-id fish ~/.config/i3/input.fish key XF86MonBrightnessUp 
+bindsym XF86AudioPlay exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioPlay 
+bindsym XF86AudioNext exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioNext 
+bindsym XF86AudioPrev exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioPrev 
+bindsym XF86AudioMute exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioMute 
+bindsym $mod+BackSpace exec --no-startup-id fish ~/.config/i3/input.fish key Super+BackSpace
 
-bindsym Print exec flameshot gui
-bindsym $mod+b exec google-chrome --password-store=gnome-libsecret 
-bindsym $mod+t exec kitty fish
-bindsym $mod+space exec ilia -t ~/.config/i3/ilia.css -p apps
-bindsym $mod+BackSpace exec kill -USR2 $(cat /tmp/i3-bar/pid)
+bindsym Print exec --no-startup-id flameshot gui
+bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
+bindsym $mod+t exec --no-startup-id kitty fish
+bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 
 for_window [class="xfreerdp"] floating disable
 

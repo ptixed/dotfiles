@@ -32,11 +32,19 @@ switch "$argv[2]"
     case XF86AudioPrev
         playerctl prev
     case XF86AudioMute
-        wpctl set-mute @DEFAULT_SINK@ toggle
-        if wpctl get-volume @DEFAULT_SINK@ | grep -q MUTED
-            dunstify --replace 861 -i /usr/share/icons/Papirus/24x24/panel/audio-input-microphone-muted.svg "Muted"
+        wpctl set-mute @DEFAULT_SOURCE@ toggle
+        if wpctl get-volume @DEFAULT_SOURCE@ | grep -q MUTED
+            dunstify --replace 861 -i $icons/24x24/panel/audio-input-microphone-muted.svg "Muted"
         else
-            dunstify --replace 861 -i /usr/share/icons/Papirus/24x24/panel/audio-input-microphone-high.svg "Microphone on"
+            dunstify --replace 861 -i $icons/24x24/panel/audio-input-microphone-high.svg "Microphone on"
+        end
+    case Super+BackSpace
+        if ibus engine | grep -q anthy
+            ibus engine xkb:pl::pol
+            dunstify --replace 862 "Keyboard switched"
+        else
+            ibus engine anthy
+            dunstify --replace 862 "キーボードが切り替わった"
         end
 end
 
