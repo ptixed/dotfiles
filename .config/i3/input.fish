@@ -4,6 +4,8 @@ if test "$argv[1]" != 'key'
     exit
 end
 
+set icons /usr/share/icons/Papirus/
+
 switch "$argv[2]"
     case ''
         echo XF86AudioRaiseVolume 

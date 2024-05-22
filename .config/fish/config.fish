@@ -15,7 +15,7 @@ if status is-interactive
     abbr apti sudo apt install --no-install-recommends
     abbr la ls -la
     abbr grep grep --color
-    abbr broadcast kitty +kitten broadcast --match-tab state:focused
+    abbr code code --password-store=gnome-libsecret
 
     function last_history_item
         echo $history[1]
@@ -26,9 +26,8 @@ if status is-interactive
     bind \b backward-kill-word 
     bind \e\[3\;5~ kill-word
     bind \cO 'ranger; commandline -f repaint'
+
+    zoxide init --cmd cd fish | source
 end
 
-fish_add_path /usr/local/bin/python-venv/bin/
-
-zoxide init --cmd cd fish | source
-
+fish_add_path $HOME/.local/python-venv/bin/

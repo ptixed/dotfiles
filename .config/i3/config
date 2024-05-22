@@ -101,7 +101,7 @@ bindsym $mod+BackSpace exec --no-startup-id fish ~/.config/i3/input.fish key Sup
 
 bindsym Print exec --no-startup-id flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
-bindsym $mod+t exec --no-startup-id kitty fish
+bindsym $mod+t exec --no-startup-id st -f "CaskaydiaMono Nerd Font:size=11" tmux
 bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
 
 for_window [class="xfreerdp"] floating disable

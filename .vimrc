@@ -5,6 +5,7 @@
 
 syntax on
 filetype plugin indent on
+colorscheme default
 
 fixdel
 set whichwrap+=<,>,h,l,[,]
@@ -26,16 +27,12 @@ set showcmd
 set autoindent
 set nofixendofline
 set iskeyword+=-
-set cursorline
 set mouse=a
 set shell=/usr/bin/fish
 set titlestring=%t
 set belloff=all
 
 command Bd bn|bd
-command -nargs=1 -complete=file E 
-            \ | execute ':silent !kitty @ launch --cwd=current --type=tab -- vim -- ' . <q-args>
-            \ | execute ':redraw!'
 
 hi CursorLine cterm=none ctermbg=0
 hi CursorLineNr cterm=none ctermbg=0
@@ -98,6 +95,8 @@ nnoremap <c-f> /
 inoremap <c-r> <esc>:%s/<c-r><c-w>/
 nnoremap <c-r> :%s/<c-r><c-w>/
 vnoremap <c-r> :s/
+
+vnoremap <BS> "_di
 
 " ------------------
 " changes colors based on mode
