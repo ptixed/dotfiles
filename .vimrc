@@ -89,12 +89,21 @@ vnoremap <c-c> y
 inoremap <c-v> <esc>pa
 nnoremap <c-v> p
 
-inoremap <c-f> <esc>/
-nnoremap <c-f> /
-
 inoremap <c-r> <esc>:%s/<c-r><c-w>/
 nnoremap <c-r> :%s/<c-r><c-w>/
 vnoremap <c-r> :s/
+
+inoremap <c-n> <esc>:tabnew<cr>
+nnoremap <c-n> :tabnew<cr>
+
+inoremap <c-w> <esc>:q<cr>
+nnoremap <c-w> :q<cr>
+
+inoremap <c-e> <esc>:tabnext<cr>
+nnoremap <c-e> :tabnext<cr>
+
+inoremap <c-q> <esc>:tabprevious<cr>
+nnoremap <c-q> :tabprevious<cr>
 
 vnoremap <BS> "_di
 

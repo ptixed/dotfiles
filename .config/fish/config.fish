@@ -14,8 +14,9 @@ if status is-interactive
     abbr gs git status
     abbr apti sudo apt install --no-install-recommends
     abbr la ls -la
-    abbr grep grep --color
+    abbr grep grep --color=always
     abbr code code --password-store=gnome-libsecret
+    abbr difft difft --color=always
 
     function last_history_item
         echo $history[1]

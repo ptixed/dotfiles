@@ -1,1 +1,56 @@
-exit 60
+#!/usr/bin/fish
+
+set stations 'https://ice5.somafm.com/defcon-128-mp3' 'https://stream13.polskieradio.pl/pr3/pr3.sdp/chunklist_w1757229385.m3u8'
+set names 'SOMA' 'Trojka'
+set total (count $stations)
+
+switch $argv[1]
+    case init
+        set station 1
+        set mpv_pid ''
+        playerctl metadata --follow -f '{{status}} {{artist}} {{title}}' | xargs -L1 fish -c 'kill (cat pid)' &
+    case refresh
+        set playing (playerctl metadata -f '{{status}}')
+        if test "$playing" = '' || test "$playing" = Stopped 
+            set output $names[$station]
+        else
+            set artist (playerctl metadata -f '{{artist}}')
+            set title (playerctl metadata -f '{{title}}')
+            if test "$artist" = ''
+                set output $title
+            else
+                set output "$artist: $title"
+            end
+        end
+    case lmb
+        if test "$mpv_pid" != ''
+            kill $mpv_pid
+            set mpv_pid ''
+        else
+            mpv $stations[$station] >/dev/null &
+            set mpv_pid $last_pid
+        end
+    case mmb
+        set url "https://google.com/search?q=$(playerctl metadata -f '{{artist}} {{title}}' | jq -rR @uri)"
+        google-chrome --password-store=gnome-libsecret "$url" >/dev/null
+    case scrollup
+        set station (math "$station % $total + 1")
+        set output $names[$station]
+        if test "$mpv_pid" != ''
+            kill $mpv_pid
+            mpv $stations[$station] >/dev/null &
+            set mpv_pid $last_pid
+        end
+    case scrolldown
+        set station (math "($station - 2 + $total) % $total + 1")
+        set output $names[$station]
+        if test "$mpv_pid" != ''
+            kill $mpv_pid
+            mpv $stations[$station] >/dev/null &
+            set mpv_pid $last_pid
+        end
+end
+
+echo mpv_pid=$mpv_pid
+echo station=$station
+echo output=(echo $output | string escape)
