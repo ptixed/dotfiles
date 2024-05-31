@@ -66,9 +66,8 @@ bindsym $mod+$alt+Down move down
 bindsym $mod+$alt+Left move left
 bindsym $mod+$alt+Right move right
 
-# bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+Tab exec --no-startup-id ilia -p windows
-bindsym $alt+Tab exec --no-startup-id kill -HUP $(cat /tmp/i3-bar/pid)
+bindsym $mod+Tab workspace back_and_forth
+bindsym $alt+Tab exec --no-startup-id XDG_DATA_DIRS=/usr/share ilia ~/.config/i3/ilia.css -p windows
 
 workspace_auto_back_and_forth yes
 
@@ -102,7 +101,7 @@ bindsym $mod+BackSpace exec --no-startup-id fish ~/.config/i3/input.fish key Sup
 bindsym Print exec --no-startup-id flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
 bindsym $mod+t exec --no-startup-id st -f "CaskaydiaMono Nerd Font:size=11" tmux
-bindsym $mod+space exec --no-startup-id ilia -t ~/.config/i3/ilia.css -p apps
+bindsym $mod+space exec --no-startup-id XDG_DATA_DIRS=/usr/share ilia -t ~/.config/i3/ilia.css -p apps
 
 for_window [class="xfreerdp"] floating disable
 

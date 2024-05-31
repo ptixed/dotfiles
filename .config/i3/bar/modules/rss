@@ -1,0 +1,29 @@
+#!/usr/bin/fish
+
+set now (date +%s)
+
+switch $argv[1]
+    case init 
+        if test "$latest" = ''
+            set latest $now
+        end
+        set next_look $now
+    case refresh
+        if test "$next_look" > "$now"
+            break
+        end
+        # TODO read addresses from config
+        set feed (curl -k 'https://mojprad.gov.pl/aktualnosci?format=feed&type=rss')
+        set latest (echo $feed | yq --input-format xml '.rss.channel.item[0].pubDate')
+        set latest (date --date $latest +%s)
+        if test "$latest" > "$now"
+            break
+        end
+    case mmb
+        latest=$now
+        output=''
+end
+
+echo latest=$latest
+echo wake=$next_look
+echo output=(echo $output | string escape)

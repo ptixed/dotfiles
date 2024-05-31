@@ -8,7 +8,7 @@ switch $argv[1]
     case init
         set station 1
         set mpv_pid ''
-        playerctl metadata --follow -f '{{status}} {{artist}} {{title}}' | xargs -L1 fish -c 'kill (cat pid)' &
+        playerctl metadata --follow -f '{{status}} {{artist}} {{title}}' | xargs -L1 fish -c 'sleep 1 && kill (cat pid)' &
     case refresh
         set playing (playerctl metadata -f '{{status}}')
         if test "$playing" = '' || test "$playing" = Stopped 

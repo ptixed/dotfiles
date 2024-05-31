@@ -3,6 +3,7 @@
 # same as in reader.fish
 function update_one -a module command
     begin
+        flock 3
         set env (cat state/$module 2>/dev/null)
         eval $env $home/modules/$module $command >state/$module
         flock -u 3
@@ -10,7 +11,7 @@ function update_one -a module command
 end
 
 function update_all -a command
-    for module in date radio volume
+    for module in date radio volume mic yt
         update_one $module $command
     end
 end
@@ -44,6 +45,7 @@ end
 function print_all 
     echo '['
     print_one radio true
+    print_one mic false
     print_one volume true
     print_one date false
     echo '{"full_text":""}],'

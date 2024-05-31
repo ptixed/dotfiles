@@ -19,10 +19,10 @@ switch "$argv[2]"
         exit
     case XF86AudioRaiseVolume
         wpctl set-volume @DEFAULT_SINK@ 0.05+
-        kill -USR1 $(cat /tmp/i3-bar/pid)
+        kill -USR1 $(cat /tmp/bar/pid)
     case XF86AudioLowerVolume
         wpctl set-volume @DEFAULT_SINK@ 0.05-
-        kill -USR1 $(cat /tmp/i3-bar/pid) 
+        kill -USR1 $(cat /tmp/bar/pid) 
     case XF86MonBrightnessDown
         brightnessctl -q set 10%-
     case XF86MonBrightnessUp

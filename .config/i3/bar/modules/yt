@@ -1,0 +1,17 @@
+#!/usr/bin/fish
+
+switch $argv[1]
+    case init
+        socat TCP-LISTEN:10018,reuseaddr,fork 'SYSTEM:
+        { 
+            echo "HTTP/1.1 204 No Content" >&3;
+            echo "Access-Control-Allow-Origin: *" >&3;
+            echo "Connection: close" >&3;
+            echo >&3; 
+            f=$(tail -1)
+            if [ "$f" != "\r" ]; then 
+                mpv -- "$f"
+            fi
+        },fdout=3' &
+end
+

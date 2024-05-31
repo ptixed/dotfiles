@@ -11,10 +11,8 @@ switch $argv[1]
         end
     case scrollup
         wpctl set-volume @DEFAULT_SINK@ 0.05+
-        kill (cat pid)
     case scrolldown
         wpctl set-volume @DEFAULT_SINK@ 0.05-
-        kill (cat pid)
 end
 
 echo output=(echo $output | string escape)

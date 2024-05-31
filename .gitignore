@@ -1,6 +1,7 @@
 *
 
 !.profile
+!.gitattributes
 !.gitconfig
 !.gitignore
 !.gitmodules
@@ -58,6 +59,17 @@
 !.vim/**
 .vim/.netrwhist
 .vim/viminfo
+
+!.local/
+!.local/bin/
+!.local/bin/difft
+!.local/bin/i3lock-fancy-rapid
+!.local/bin/picom
+!.local/bin/pinta
+!.local/bin/pnpm
+!.local/bin/st
+!.local/bin/tmux
+!.local/bin/yq
 
 !build-env/
 !build-env/chroot
