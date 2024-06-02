@@ -1,0 +1,1 @@
+in /etc/bluetooth/input.conf add ClassicBondedOnly=false

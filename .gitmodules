@@ -4,3 +4,12 @@
 [submodule ".config/ranger/plugins/ranger_udisk_menu"]
 	path = .config/ranger/plugins/ranger_udisk_menu
 	url = https://github.com/SL-RU/ranger_udisk_menu
+[submodule ".vim/pack/ptixed/start/gnupg"]
+	path = .vim/pack/ptixed/start/gnupg
+	url = https://github.com/jamessan/vim-gnupg
+[submodule ".vim/pack/ptixed/start/visual-multi"]
+	path = .vim/pack/ptixed/start/visual-multi
+	url = https://github.com/mg979/vim-visual-multi
+[submodule ".vim/pack/ptixed/start/surround"]
+	path = .vim/pack/ptixed/start/surround
+	url = https://github.com/tpope/vim-surround

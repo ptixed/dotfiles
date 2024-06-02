@@ -67,7 +67,6 @@ bindsym $mod+$alt+Left move left
 bindsym $mod+$alt+Right move right
 
 bindsym $mod+Tab workspace back_and_forth
-bindsym $alt+Tab exec --no-startup-id XDG_DATA_DIRS=/usr/share ilia ~/.config/i3/ilia.css -p windows
 
 workspace_auto_back_and_forth yes
 
@@ -82,28 +81,29 @@ gaps inner 10px
 # gaps top -10px
 
 bindsym $mod+r restart
-bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 3
+bindsym $mod+l exec --no-startup-id slock
 
 exec --no-startup-id ~/.config/i3/autostart.fish
 exec_always --no-startup-id autorandr --change 
 exec_always --no-startup-id nitrogen --restore
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioRaiseVolume 
-bindsym XF86AudioLowerVolume exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioLowerVolume 
-bindsym XF86MonBrightnessDown exec --no-startup-id fish ~/.config/i3/input.fish key XF86MonBrightnessDown 
-bindsym XF86MonBrightnessUp exec --no-startup-id fish ~/.config/i3/input.fish key XF86MonBrightnessUp 
-bindsym XF86AudioPlay exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioPlay 
-bindsym XF86AudioNext exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioNext 
-bindsym XF86AudioPrev exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioPrev 
-bindsym XF86AudioMute exec --no-startup-id fish ~/.config/i3/input.fish key XF86AudioMute 
-bindsym $mod+BackSpace exec --no-startup-id fish ~/.config/i3/input.fish key Super+BackSpace
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/input.fish key XF86AudioRaiseVolume 
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/input.fish key XF86AudioLowerVolume 
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/input.fish key XF86MonBrightnessDown 
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/input.fish key XF86MonBrightnessUp 
+bindsym XF86AudioPlay exec --no-startup-id ~/.config/i3/input.fish key XF86AudioPlay 
+bindsym XF86AudioNext exec --no-startup-id ~/.config/i3/input.fish key XF86AudioNext 
+bindsym XF86AudioPrev exec --no-startup-id ~/.config/i3/input.fish key XF86AudioPrev 
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/input.fish key XF86AudioMute 
+bindsym $mod+BackSpace exec --no-startup-id ~/.config/i3/input.fish key Super+BackSpace
 
 bindsym Print exec --no-startup-id flameshot gui
 bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
 bindsym $mod+t exec --no-startup-id st -f "CaskaydiaMono Nerd Font:size=11" tmux
-bindsym $mod+space exec --no-startup-id XDG_DATA_DIRS=/usr/share ilia -t ~/.config/i3/ilia.css -p apps
+bindsym $mod+space exec --no-startup-id ~/.config/i3/menu.fish
 
 for_window [class="xfreerdp"] floating disable
+for_window [class="ibus-ui-gtk3"] floating enbale
 
 bar {
     i3bar_command i3bar --transparency
@@ -111,7 +111,7 @@ bar {
     mode dock
     separator_symbol " · "
     # status_command ~/.config/i3/bar.sh
-    status_command fish -c ~/.config/i3/bar.fish
+    status_command ~/.config/i3/bar.fish
     strip_workspace_numbers yes
     workspace_min_width 36
     padding 6px 6px 0px 6px

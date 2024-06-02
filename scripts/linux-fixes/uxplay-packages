@@ -1,0 +1,1 @@
+uxplay gstreamer1.0-{plugins-base,libav,plugins-good,plugins-bad,vaapi,x} avahi-daemon^

@@ -2,20 +2,18 @@
 
 switch $argv[1]
     case refresh
-        set volume (wpctl get-volume @DEFAULT_SOURCE@)
-        set output (echo "$volume" | sed -E -e 's/.*([0-9])\.([0-9][0-9]).*/\1\2%/' -e 's/^0//g')
-        if test "$volume" = "*MUTED*"
-            set output " $output"
-        else
+        set output (string match -r '\d+%' (pactl get-source-volume @DEFAULT_SOURCE@))
+        if string match -q "Mute: no" (pactl get-source-mute @DEFAULT_SOURCE@)
             set output " $output"
+        else
+            set output " $output"
         end
     case scrollup
-        wpctl set-volume @DEFAULT_SOURCE@ 0.05+
+        pactl set-source-volume @DEFAULT_SOURCE@ +5%
     case scrolldown
-        wpctl set-volume @DEFAULT_SOURCE@ 0.05-
+        pactl set-source-volume @DEFAULT_SOURCE@ -5%
     case lmb
-        # TODO click to switch between A2 and HF
-        # do not show mic when not present
+        pactl set-source-mute @DEFAULT_SOURCE@ toggle
 end
 
 echo output=(echo $output | string escape)

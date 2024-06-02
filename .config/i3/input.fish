@@ -4,8 +4,6 @@ if test "$argv[1]" != 'key'
     exit
 end
 
-set icons /usr/share/icons/Papirus/
-
 switch "$argv[2]"
     case ''
         echo XF86AudioRaiseVolume 
@@ -18,10 +16,10 @@ switch "$argv[2]"
         echo XF86AudioMute
         exit
     case XF86AudioRaiseVolume
-        wpctl set-volume @DEFAULT_SINK@ 0.05+
+        pactl set-sink-volume @DEFAULT_SINK@ +5%
         kill -USR1 $(cat /tmp/bar/pid)
     case XF86AudioLowerVolume
-        wpctl set-volume @DEFAULT_SINK@ 0.05-
+        pactl set-sink-volume @DEFAULT_SINK@ -5%
         kill -USR1 $(cat /tmp/bar/pid) 
     case XF86MonBrightnessDown
         brightnessctl -q set 10%-
@@ -34,14 +32,14 @@ switch "$argv[2]"
     case XF86AudioPrev
         playerctl prev
     case XF86AudioMute
-        wpctl set-mute @DEFAULT_SOURCE@ toggle
-        if wpctl get-volume @DEFAULT_SOURCE@ | grep -q MUTED
-            dunstify --replace 861 -i $icons/24x24/panel/audio-input-microphone-muted.svg "Muted"
+        pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        if test $(pactl get-source-mute @DEFAULT_SOURCE@) = "Mute: yes"
+            dunstify --replace 861 "  Muted"
         else
-            dunstify --replace 861 -i $icons/24x24/panel/audio-input-microphone-high.svg "Microphone on"
+            dunstify --replace 861 "  Microphone on"
         end
     case Super+BackSpace
-        if ibus engine | grep -q anthy
+        if string match -qr "anthy" (ibus engine)
             ibus engine xkb:pl::pol
             dunstify --replace 862 "Keyboard switched"
         else

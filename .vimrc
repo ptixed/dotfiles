@@ -14,39 +14,54 @@ set number
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set smarttab
 set backspace=indent,eol,start
 set clipboard=unnamed,unnamedplus
 set ignorecase
 set smartcase
 set incsearch
 set laststatus=1
-set timeoutlen=300 ttimeoutlen=300
+set timeoutlen=300 ttimeoutlen=0
 set noswapfile
 set hidden
 set showcmd
 set autoindent
+set smartindent
 set nofixendofline
 set iskeyword+=-
 set mouse=a
 set shell=/usr/bin/fish
 set titlestring=%t
 set belloff=all
+set foldmethod=syntax
+set foldlevel=99
+set wildmenu
+set lazyredraw
+set magic
 
-command Bd bn|bd
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[6 q"
+
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 hi CursorLine cterm=none ctermbg=0
 hi CursorLineNr cterm=none ctermbg=0
 
 " ------------------
 
-" jump to end of paste
-nnoremap p gp
-
 " mark pasted
 nnoremap gp `[v`]
 
-nnoremap <cr> o
-nnoremap <space> a
+nnoremap p gP
+
+" prevent cursor from sliding when changing modes
+noremap <esc> <esc>l
+
+" fold (see zM, zR)
+noremap <2-LeftMouse> za
+
+nnoremap <cr> i<cr>
+nnoremap <space> i<space>
 
 " faster buffer switch
 nnoremap bn :bn<cr>
@@ -96,16 +111,18 @@ vnoremap <c-r> :s/
 inoremap <c-n> <esc>:tabnew<cr>
 nnoremap <c-n> :tabnew<cr>
 
-inoremap <c-w> <esc>:q<cr>
-nnoremap <c-w> :q<cr>
-
-inoremap <c-e> <esc>:tabnext<cr>
-nnoremap <c-e> :tabnext<cr>
+inoremap <c-w> <esc>:tabnext<cr>
+nnoremap <c-w> :tabnext<cr>
 
 inoremap <c-q> <esc>:tabprevious<cr>
 nnoremap <c-q> :tabprevious<cr>
 
 vnoremap <BS> "_di
+
+noremap <c-j> <c-w>j
+noremap <c-k> <c-w>k
+noremap <c-h> <c-w>h
+noremap <c-l> <c-w>l
 
 " ------------------
 " changes colors based on mode
@@ -113,6 +130,7 @@ vnoremap <BS> "_di
 hi StatusLine ctermfg=3
 hi StatusLineNC ctermfg=0
 hi LineNr ctermfg=4
+hi Folded ctermbg=0
 autocmd InsertEnter * exe "hi LineNr ctermfg=3"
 autocmd InsertLeave * exe "hi LineNr ctermfg=4"
 

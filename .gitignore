@@ -63,10 +63,12 @@
 !.local/
 !.local/bin/
 !.local/bin/difft
-!.local/bin/i3lock-fancy-rapid
+!.local/bin/dmenu
+!.local/bin/qalc
 !.local/bin/picom
 !.local/bin/pinta
 !.local/bin/pnpm
+!.local/bin/slock
 !.local/bin/st
 !.local/bin/tmux
 !.local/bin/yq

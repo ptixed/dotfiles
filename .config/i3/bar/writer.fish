@@ -59,7 +59,7 @@ function main
         update_all refresh
         print_all
 
-        set wake (grep --no-filename -Po 'wake=\K.*' -R state | sort -n | head -1)
+        set wake (cat state/* | string match -r '(?<=wake=).*' | sort -n | head -1)
         set now (date +%s)
 
         sleep (math $wake - $now) &
