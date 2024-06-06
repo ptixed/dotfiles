@@ -1,4 +1,4 @@
-" vim is terrible but there is no better alternative
+" vim defaults are terrible 
 
 " let g:GPGDebugLevel = 2
 " let g:GPGDebugLog = expand('~/gnupg.log')
@@ -6,6 +6,7 @@
 syntax on
 filetype plugin indent on
 colorscheme default
+hi Visual ctermfg=black ctermbg=darkgray
 
 fixdel
 set whichwrap+=<,>,h,l,[,]
@@ -55,7 +56,7 @@ nnoremap gp `[v`]
 nnoremap p gP
 
 " prevent cursor from sliding when changing modes
-noremap <esc> <esc>l
+inoremap <esc> <esc>l
 
 " fold (see zM, zR)
 noremap <2-LeftMouse> za
@@ -108,8 +109,8 @@ inoremap <c-r> <esc>:%s/<c-r><c-w>/
 nnoremap <c-r> :%s/<c-r><c-w>/
 vnoremap <c-r> :s/
 
-inoremap <c-n> <esc>:tabnew<cr>
-nnoremap <c-n> :tabnew<cr>
+inoremap <c-t> <esc>:tabnew<cr>
+nnoremap <c-t> :tabnew<cr>
 
 inoremap <c-w> <esc>:tabnext<cr>
 nnoremap <c-w> :tabnext<cr>

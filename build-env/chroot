@@ -8,7 +8,7 @@
 # usermod -aG sudo ptixed
 
 if [ $(whoami) != root ]; then
-    sudo "$0"
+    sudo "$0" "$@"
     exit
 fi
 
@@ -20,5 +20,12 @@ if ! mountpoint -q proc; then
     mount --rbind /dev dev/
 fi
 
-chroot --userspec=ptixed . /usr/bin/env -i HOME=/home/ptixed TERM=$TERM fish --init-command=cd
-
+if [ "$#" == 0 ]; then
+    chroot --userspec=ptixed . /usr/bin/env -i HOME=/home/ptixed TERM=$TERM fish --init-command=cd
+elif [ "$#" == 1 ]; then
+    chroot --userspec=ptixed . /usr/bin/env -i HOME=/home/ptixed TERM=$TERM fish -c "$@"
+elif [ "$1" == 'make' ]; then
+    chroot --userspec=ptixed . /usr/bin/env -i HOME=/home/ptixed TERM=$TERM fish -c "~/repos/$2 && make clean && make ${@:3}"
+else
+    echo 'bad args'
+fi

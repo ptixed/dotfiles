@@ -16,6 +16,6 @@ export QT_QPA_PLATFORMTHEME=gtk3
 export GLFW_IM_MODULE=ibus 
 
 if [[ "$DISPLAY" == "" ]] && [[ "$XDG_VTNR" == "1" ]]; then
-    startx
+    startx &
 fi
 

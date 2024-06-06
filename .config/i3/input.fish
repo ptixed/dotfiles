@@ -1,26 +1,35 @@
 #!/usr/bin/fish
 
-if test "$argv[1]" != 'key'
-    exit
-end
-
-switch "$argv[2]"
-    case ''
-        echo XF86AudioRaiseVolume 
-        echo XF86AudioLowerVolume 
-        echo XF86MonBrightnessDown 
-        echo XF86MonBrightnessUp 
-        echo XF86AudioPlay 
-        echo XF86AudioNext 
-        echo XF86AudioPrev 
-        echo XF86AudioMute
-        exit
+switch $argv[1]
+    case key
+        switch $argv[2]
+            case ''
+                echo XF86AudioRaiseVolume 
+                echo XF86AudioLowerVolume 
+                echo XF86MonBrightnessDown 
+                echo XF86MonBrightnessUp 
+                echo XF86AudioPlay 
+                echo XF86AudioNext 
+                echo XF86AudioPrev 
+                echo XF86AudioMute
+                echo Print
+                echo Superspace # bug in freerdp, should be Super+space and so on
+                echo Superj
+                echo Superl
+            case Superspace
+                ~/.config/freerdp/host-exec.fish '~/.config/i3/input.fish Super+space' >/dev/null &
+                echo key-local
+            case '*'
+                # redirecting for parent to not wait for output
+                ~/.config/i3/input.fish (string replace Super Super+ $argv[2]) >/dev/null &
+                echo key-local
+        end
     case XF86AudioRaiseVolume
         pactl set-sink-volume @DEFAULT_SINK@ +5%
         kill -USR1 $(cat /tmp/bar/pid)
     case XF86AudioLowerVolume
         pactl set-sink-volume @DEFAULT_SINK@ -5%
-        kill -USR1 $(cat /tmp/bar/pid) 
+        kill -USR1 $(cat /tmp/bar/pid)
     case XF86MonBrightnessDown
         brightnessctl -q set 10%-
     case XF86MonBrightnessUp
@@ -33,19 +42,32 @@ switch "$argv[2]"
         playerctl prev
     case XF86AudioMute
         pactl set-source-mute @DEFAULT_SOURCE@ toggle
-        if test $(pactl get-source-mute @DEFAULT_SOURCE@) = "Mute: yes"
-            dunstify --replace 861 "  Muted"
+        if test $(pactl get-source-mute @DEFAULT_SOURCE@) = 'Mute: yes'
+            dunstify --replace 861 '  Muted'
         else
-            dunstify --replace 861 "  Microphone on"
+            dunstify --replace 861 '  Microphone on'
         end
+        kill -USR1 $(cat /tmp/bar/pid)
+    case Print
+        flameshot gui
     case Super+BackSpace
-        if string match -qr "anthy" (ibus engine)
+        if test $(ibus engine) = 'anthy'
             ibus engine xkb:pl::pol
-            dunstify --replace 862 "Keyboard switched"
+            dunstify --replace 862 'Keyboard switched'
         else
             ibus engine anthy
-            dunstify --replace 862 "キーボードが切り替わった"
+            dunstify --replace 862 'キーボードが切り替わった'
         end
+    case Super+space
+        ~/.config/i3/menu.fish
+    case Super+l
+        slock
+    case Super+j
+        if ! kill $(grep 'attach -t st-quick' /proc/*/cmdline 2>&1 | grep -Po '[0-9]+') 
+            st -c st-quick -- sh -c 'tmux attach -t st-quick || tmux new -t st-quick'
+        end
+    case Super+t
+        st tmux
+    case Super+b
+        google-chrome --password-store=gnome-libsecret
 end
-
-echo key-local

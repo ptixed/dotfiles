@@ -14,6 +14,8 @@ switch $argv[1]
         pactl set-sink-volume @DEFAULT_SINK@ -5%
     case lmb
         pactl set-sink-mute @DEFAULT_SINK@ toggle
+    case rmb
+        pavucontrol &
 end
 
 echo output=(echo $output | string escape)

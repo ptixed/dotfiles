@@ -5,6 +5,9 @@ function export
 end
 
 if status is-interactive
+    abbr rm rm -i
+    abbr grep grep --color=always
+    abbr apti sudo apt install --no-install-recommends
     abbr g git
     abbr ga git add -A
     abbr gc git checkout
@@ -12,9 +15,6 @@ if status is-interactive
     abbr gdc git diff --cached
     abbr gp git pull
     abbr gs git status
-    abbr apti sudo apt install --no-install-recommends
-    abbr la ls -la
-    abbr grep grep --color=always
     abbr code code --password-store=gnome-libsecret
     abbr difft difft --color=always
 

@@ -9,7 +9,7 @@ switch $argv[1]
     case init
         set zone 1
     case refresh
-        set output (TZ=$zones[$zone] date "+%b %d %a %H:%M$names[$zone]")
+        TZ=$zones[$zone] set output (date "+%b"; LANG=ja_JP.UTF-8 date "+%d %a %H:%M$names[$zone]")
     case scrollup
         set zone (math "$zone % $total + 1")
     case scrolldown

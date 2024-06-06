@@ -85,25 +85,25 @@ bindsym $mod+l exec --no-startup-id slock
 
 exec --no-startup-id ~/.config/i3/autostart.fish
 exec_always --no-startup-id autorandr --change 
-exec_always --no-startup-id nitrogen --restore
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/input.fish key XF86AudioRaiseVolume 
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/input.fish key XF86AudioLowerVolume 
-bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/input.fish key XF86MonBrightnessDown 
-bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/input.fish key XF86MonBrightnessUp 
-bindsym XF86AudioPlay exec --no-startup-id ~/.config/i3/input.fish key XF86AudioPlay 
-bindsym XF86AudioNext exec --no-startup-id ~/.config/i3/input.fish key XF86AudioNext 
-bindsym XF86AudioPrev exec --no-startup-id ~/.config/i3/input.fish key XF86AudioPrev 
-bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/input.fish key XF86AudioMute 
-bindsym $mod+BackSpace exec --no-startup-id ~/.config/i3/input.fish key Super+BackSpace
-
-bindsym Print exec --no-startup-id flameshot gui
-bindsym $mod+b exec --no-startup-id google-chrome --password-store=gnome-libsecret 
-bindsym $mod+t exec --no-startup-id st -f "CaskaydiaMono Nerd Font:size=11" tmux
-bindsym $mod+space exec --no-startup-id ~/.config/i3/menu.fish
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/input.fish XF86AudioRaiseVolume 
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/input.fish XF86AudioLowerVolume 
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/input.fish XF86MonBrightnessDown 
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/input.fish XF86MonBrightnessUp 
+bindsym XF86AudioPlay exec --no-startup-id ~/.config/i3/input.fish XF86AudioPlay 
+bindsym XF86AudioNext exec --no-startup-id ~/.config/i3/input.fish XF86AudioNext 
+bindsym XF86AudioPrev exec --no-startup-id ~/.config/i3/input.fish XF86AudioPrev 
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/input.fish XF86AudioMute 
+bindsym $mod+BackSpace exec --no-startup-id ~/.config/i3/input.fish Super+BackSpace
+bindsym $mod+space exec --no-startup-id ~/.config/i3/input.fish Super+space
+bindsym $mod+j exec --no-startup-id ~/.config/i3/input.fish Super+j
+bindsym $mod+b exec --no-startup-id ~/.config/i3/input.fish Super+b
+bindsym $mod+t exec --no-startup-id ~/.config/i3/input.fish Super+t
+bindsym Print exec --no-startup-id ~/.config/i3/input.fish Print
 
 for_window [class="xfreerdp"] floating disable
-for_window [class="ibus-ui-gtk3"] floating enbale
+for_window [class="st-quick"] floating enable
+for_window [class="dmenu"] floating enable
 
 bar {
     i3bar_command i3bar --transparency
