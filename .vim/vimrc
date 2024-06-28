@@ -3,6 +3,9 @@
 " let g:GPGDebugLevel = 2
 " let g:GPGDebugLog = expand('~/gnupg.log')
 
+let g:closetag_filenames = '*.html,*.vue,*.svelte'
+au BufRead,BufNewFile *.svelte set filetype=html
+
 syntax on
 filetype plugin indent on
 colorscheme default
@@ -39,6 +42,8 @@ set foldlevel=99
 set wildmenu
 set lazyredraw
 set magic
+set list listchars=tab:»-,space:·
+set cursorline
 
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[6 q"
@@ -96,8 +101,6 @@ nnoremap <c-z> u
 inoremap <c-y> <esc><c-r>a
 nnoremap <c-y> <c-r>
 
-inoremap <c-a> <esc>ggVG
-
 inoremap <c-c> <esc>yya
 nnoremap <c-c> yy
 vnoremap <c-c> y
@@ -119,11 +122,6 @@ inoremap <c-q> <esc>:tabprevious<cr>
 nnoremap <c-q> :tabprevious<cr>
 
 vnoremap <BS> "_di
-
-noremap <c-j> <c-w>j
-noremap <c-k> <c-w>k
-noremap <c-h> <c-w>h
-noremap <c-l> <c-w>l
 
 " ------------------
 " changes colors based on mode

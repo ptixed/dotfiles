@@ -5,7 +5,6 @@ function export
 end
 
 if status is-interactive
-    abbr rm rm -i
     abbr grep grep --color=always
     abbr apti sudo apt install --no-install-recommends
     abbr g git
@@ -17,6 +16,7 @@ if status is-interactive
     abbr gs git status
     abbr code code --password-store=gnome-libsecret
     abbr difft difft --color=always
+    abbr nethogs sudo nethogs -v4
 
     function last_history_item
         echo $history[1]

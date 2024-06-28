@@ -2,11 +2,21 @@
 
 switch $argv[1]
     case refresh
+        set device (pactl --format=json list | jq '.cards[] | select(.driver == "module-bluez5-device.c")')
+        if test "$device" != ''
+            set profile "$(echo "$device" | jq -r .active_profile)"
+            switch "$profile"
+                case 'a2dp-sink*'
+                    set profile a2dp
+                case 'headset*'
+                    set profile hsp/hfp
+            end
+        end
         set output (string match -r '\d+%' (pactl get-source-volume @DEFAULT_SOURCE@))
         if string match -q "Mute: no" (pactl get-source-mute @DEFAULT_SOURCE@)
-            set output " $output"
+            set output "$profile  $output"
         else
-            set output " $output"
+            set output "$profile  $output"
         end
     case scrollup
         pactl set-source-volume @DEFAULT_SOURCE@ +5%
@@ -16,6 +26,14 @@ switch $argv[1]
         pactl set-source-mute @DEFAULT_SOURCE@ toggle
     case rmb
         pavucontrol &
+    case mmb
+        set device (pactl --format=json list | jq '.cards[] | select(.driver == "module-bluez5-device.c")')
+        switch "$(echo "$device" | jq -r .active_profile)"
+            case 'a2dp-sink*'
+                pactl set-card-profile (echo "$device" | jq -r .name) headset-head-unit
+            case 'headset*'
+                pactl set-card-profile (echo "$device" | jq -r .name) a2dp-sink
+        end
 end
 
 echo output=(echo $output | string escape)

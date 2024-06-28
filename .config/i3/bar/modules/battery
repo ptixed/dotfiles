@@ -1,0 +1,11 @@
+#!/usr/bin/fish
+
+switch $argv[1]
+    case init refresh
+        if test -f /sys/class/power_supply/BAT0/capacity
+            set now (date +%s)
+            set output "󰁹 $(cat /sys/class/power_supply/BAT0/capacity)%"
+            echo output=(echo $output | string escape)
+            echo wake=(math "$now+60")
+        end
+end

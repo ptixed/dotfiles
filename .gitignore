@@ -5,7 +5,6 @@
 !.gitconfig
 !.gitignore
 !.gitmodules
-!.vimrc
 !.xinitrc
 
 !.config/
@@ -52,6 +51,9 @@
 !.config/ranger/**
 .config/ranger/plugins/__pycache__/**
 
+!.config/user-tmpfiles.d/
+!.config/user-tmpfiles.d/**
+
 !.vim/
 !.vim/**
 .vim/.netrwhist
@@ -67,6 +69,7 @@
 !.local/bin/pnpm
 !.local/bin/slock
 !.local/bin/st
+!.local/bin/steam
 !.local/bin/tmux
 !.local/bin/yq
 

@@ -13,9 +13,9 @@ export LESS='-JiwRXSj.5'
 # disable .lesshst file
 export LESSHISTFILE=-
 export QT_QPA_PLATFORMTHEME=gtk3
-export GLFW_IM_MODULE=ibus 
+export GLFW_IM_MODULE=ibus
+export DOTNET_CLI_HOME="$HOME/.local/dotnet"
 
 if [[ "$DISPLAY" == "" ]] && [[ "$XDG_VTNR" == "1" ]]; then
-    startx &
+    exec startx -- -dpi 96
 fi
-

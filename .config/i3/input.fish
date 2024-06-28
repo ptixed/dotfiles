@@ -39,7 +39,7 @@ switch $argv[1]
     case XF86AudioNext
         playerctl next
     case XF86AudioPrev
-        playerctl prev
+        playerctl previous
     case XF86AudioMute
         pactl set-source-mute @DEFAULT_SOURCE@ toggle
         if test $(pactl get-source-mute @DEFAULT_SOURCE@) = 'Mute: yes'
@@ -49,7 +49,7 @@ switch $argv[1]
         end
         kill -USR1 $(cat /tmp/bar/pid)
     case Print
-        flameshot gui
+        exec flameshot gui
     case Super+BackSpace
         if test $(ibus engine) = 'anthy'
             ibus engine xkb:pl::pol
@@ -59,15 +59,15 @@ switch $argv[1]
             dunstify --replace 862 'キーボードが切り替わった'
         end
     case Super+space
-        ~/.config/i3/menu.fish
+        exec ~/.config/i3/menu.fish
     case Super+l
-        slock
+        exec slock
     case Super+j
         if ! kill $(grep 'attach -t st-quick' /proc/*/cmdline 2>&1 | grep -Po '[0-9]+') 
-            st -c st-quick -- sh -c 'tmux attach -t st-quick || tmux new -t st-quick'
+            exec st -c st-quick -- sh -c 'tmux attach -t st-quick || tmux new -t st-quick'
         end
     case Super+t
-        st tmux
+        exec st tmux
     case Super+b
-        google-chrome --password-store=gnome-libsecret
+        exec google-chrome --password-store=gnome-libsecret
 end

@@ -11,7 +11,7 @@ function update_one -a module command
 end
 
 function update_all -a command
-    for module in date radio volume mic yt
+    for module in date radio volume mic yt battery
         update_one $module $command
     end
 end
@@ -45,8 +45,9 @@ end
 function print_all 
     echo '['
     print_one radio true
-    print_one mic false
-    print_one volume true
+    print_one volume false
+    print_one mic true
+    print_one battery true
     print_one date false
     echo '{"full_text":""}],'
 end

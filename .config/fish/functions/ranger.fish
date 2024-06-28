@@ -10,6 +10,6 @@ function ranger
 		end
 	end
 
-	rm -f -- $tempfile
+	command rm -- $tempfile
 	return $return_value
 end
